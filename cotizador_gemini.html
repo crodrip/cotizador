@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <!-- Optimización crítica para mobile-first -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cotizador Online | Autotap</title>
+    <meta name="description" content="Cotizador de tapicería automotriz profesional. Butacas, suelos y cielos.">
+    
+    <!-- Tipografía Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           VARIABLES CSS & THEME (Modificar colores aquí si es necesario)
+           ========================================================================== */
+        :root {
+            --bg-main: #0F0F0F;
+            --bg-card: #1F1F1F;
+            --bg-card-hover: #2A2A2A;
+            --text-main: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --accent-primary: #E63946; /* Rojo intenso automotriz */
+            --accent-primary-hover: #ff4d4d;
+            --accent-secondary: #FFB703; /* Naranja/Dorado */
+            --success: #2ECC71;
+            --border-color: #333333;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+            
+            /* Colores de Tapiz */
+            --color-negro: #1a1a1a;
+            --color-gris: #5c6267;
+            --color-beige: #d6c6b3;
+            --color-marron: #5c3a21;
+            --color-rojo: #8b1c1c;
+            --color-azul: #1c2b4a;
+            --color-blanco: #e8e8e8;
+        }
+
+        /* ==========================================================================
+           RESET & BASE
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 120px; /* Espacio para el footer fijo en mobile */
+        }
+
+        /* ==========================================================================
+           LAYOUT & CONTENEDORES
+           ========================================================================== */
+        .header {
+            background-color: var(--bg-card);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .header h1 span {
+            color: var(--accent-primary);
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                grid-template-columns: 350px 1fr; /* Preview a la izquierda en Desktop */
+                align-items: start;
+            }
+            .preview-section {
+                position: sticky;
+                top: 100px;
+            }
+            body { padding-bottom: 40px; }
+            .bottom-bar {
+                position: static !important;
+                border-radius: var(--border-radius);
+                margin-top: 30px;
+            }
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title span {
+            background-color: var(--accent-primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .card-group {
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        /* ==========================================================================
+           FORMULARIOS & INPUTS
+           ========================================================================== */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .form-row { grid-template-columns: 1fr 1fr 1fr; }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        select, input[type="text"] {
+            width: 100%;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23A0A0A0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 10px auto;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+        }
+
+        /* Opciones estilo Botón/Tarjeta (Radios ocultos) */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .options-grid.colors {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .option-label {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .option-label input[type="radio"] {
+            display: none;
+        }
+
+        .option-card {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .option-label input[type="radio"]:checked + .option-card {
+            border-color: var(--accent-primary);
+            color: var(--text-main);
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+
+        /* Círculos de color */
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: block;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .swatch-negro { background-color: var(--color-negro); }
+        .swatch-gris { background-color: var(--color-gris); }
+        .swatch-beige { background-color: var(--color-beige); }
+        .swatch-marron { background-color: var(--color-marron); }
+        .swatch-rojo { background-color: var(--color-rojo); }
+        .swatch-azul { background-color: var(--color-azul); }
+        .swatch-blanco { background-color: var(--color-blanco); }
+        .swatch-personalizado { background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); }
+
+        /* ==========================================================================
+           PREVIEW VISUAL REALISTA (SVG + Filtros CSS)
+           ========================================================================== */
+        .preview-container {
+            background-color: #151515;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .preview-title {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            z-index: 10;
+        }
+
+        /* Contenedor del SVG para aplicar texturas y colores */
+        .preview-visual {
+            width: 100%;
+            max-width: 250px;
+            height: 250px;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .preview-visual svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6));
+            transition: fill 0.4s ease;
+        }
+
+        /* SVG Clases Dinámicas */
+        .svg-base-color {
+            transition: fill 0.4s ease;
+        }
+
+        .svg-stitching {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            stroke-dasharray: 4, 4;
+            stroke-width: 1.5;
+        }
+
+        .svg-logo {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            fill: var(--accent-primary);
+        }
+        
+        .svg-ribete {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            stroke: var(--accent-primary);
+            stroke-width: 3;
+        }
+
+        .svg-combinado-panel {
+            transition: fill 0.4s ease;
+        }
+
+        /* Texturas SVG vía CSS (Filtros referenciados en el HTML) */
+        .texture-tela .svg-base-color { filter: url(#texture-tela); }
+        .texture-cuero .svg-base-color { filter: url(#texture-cuero); }
+        .texture-pvc .svg-base-color { filter: url(#texture-pvc); }
+        .texture-alcantara .svg-base-color { filter: url(#texture-alcantara); }
+        .texture-premium .svg-base-color { filter: url(#texture-premium); }
+
+        /* Estados de Diseño */
+        .design-costuras .svg-stitching { opacity: 0.8; stroke: #fff; }
+        .design-logo .svg-logo { opacity: 1; }
+        .design-ribetes .svg-ribete { opacity: 1; }
+        
+        /* Placeholder inicial */
+        .preview-placeholder {
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+        }
+
+        /* ==========================================================================
+           FOOTER FIJO (PRECIO Y BOTONES)
+           ========================================================================== */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(31, 31, 31, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border-color);
+            padding: 15px 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+        }
+
+        .price-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .price-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--success);
+            letter-spacing: -0.5px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            flex: 1;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        .btn-primary {
+            background-color: var(--success);
+            color: #000;
+        }
+        
+        .btn-primary:not(:disabled):hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        /* Animación de pulso cuando está listo para enviar */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+        .btn-primary.ready {
+            animation: pulse 2s infinite;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            flex: 0 0 auto;
+            padding: 14px 20px;
+        }
+
+        .btn-secondary:not(:disabled):hover {
+            background-color: var(--bg-card-hover);
+        }
+
+        /* ==========================================================================
+           RESUMEN
+           ========================================================================== */
+        .summary-box {
+            background-color: rgba(230, 57, 70, 0.05);
+            border: 1px dashed var(--accent-primary);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .summary-box.active {
+            display: block;
+        }
+
+        .summary-title {
+            color: var(--accent-primary);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .summary-list {
+            list-style: none;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .summary-list li {
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .summary-list li span:last-child {
+            color: var(--text-main);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Ocultar secciones dinámicamente */
+        .step-hidden {
+            opacity: 0.5;
+            pointer-events: none;
+            filter: grayscale(1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Definición de Filtros SVG para Texturas Realistas -->
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true">
+        <defs>
+            <!-- Tela: Patrón cuadriculado suave -->
+            <pattern id="pat-tela" width="4" height="4" patternUnits="userSpaceOnUse">
+                <path d="M 4 0 L 0 4 M 0 0 L 4 4" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="0.5"/>
+            </pattern>
+            <filter id="texture-tela">
+                <feImage href="#pat-tela" result="pattern"/>
+                <feComposite in="pattern" in2="SourceGraphic" operator="in" result="comp"/>
+                <feBlend in="comp" in2="SourceGraphic" mode="multiply"/>
+            </filter>
+
+            <!-- Cuero: Degradado suave y brillo ligero -->
+            <filter id="texture-cuero">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+                <feSpecularLighting in="blur" surfaceScale="1" specularConstant="0.5" specularExponent="20" lighting-color="#ffffff" result="specOut">
+                    <fePointLight x="-5000" y="-10000" z="20000"/>
+                </feSpecularLighting>
+                <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+                <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+            </filter>
+
+            <!-- PVC (Cuero sintético): Más brillo plástico -->
+            <filter id="texture-pvc">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+                <feSpecularLighting in="blur" surfaceScale="1.5" specularConstant="0.8" specularExponent="30" lighting-color="#ffffff" result="specOut">
+                    <fePointLight x="-5000" y="-10000" z="20000"/>
+                </feSpecularLighting>
+                <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+                <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+            </filter>
+
+            <!-- Alcantara: Ruido fino tipo gamuza -->
+            <filter id="texture-alcantara">
+                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
+                <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.15 0" in="noise" result="coloredNoise"/>
+                <feComposite operator="in" in="coloredNoise" in2="SourceGraphic" result="texture"/>
+                <feBlend mode="multiply" in="texture" in2="SourceGraphic"/>
+            </filter>
+
+            <!-- Premium: Punteado (Perforado) -->
+            <pattern id="pat-premium" width="6" height="6" patternUnits="userSpaceOnUse">
+                <circle cx="3" cy="3" r="0.8" fill="rgba(0,0,0,0.5)"/>
+            </pattern>
+            <filter id="texture-premium">
+                <feImage href="#pat-premium" result="pattern"/>
+                <feComposite in="pattern" in2="SourceGraphic" operator="in" result="comp"/>
+                <feBlend in="comp" in2="SourceGraphic" mode="multiply"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <header class="header">
+        <h1>AUTO<span>TAP</span></h1>
+        <p>Tapicería Automotriz desde 1995</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECCIÓN PREVIEW (Izquierda en Desktop, Arriba en Mobile) -->
+        <div class="preview-section">
+            <div class="preview-container">
+                <span class="preview-title">Vista Previa en Vivo</span>
+                
+                <div id="preview-placeholder" class="preview-placeholder">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                    <span>Selecciona un producto para visualizar</span>
+                </div>
+
+                <div id="preview-visual" class="preview-visual" style="display: none;">
+                    <!-- El SVG dinámico se inyectará aquí mediante JS -->
+                </div>
+            </div>
+
+            <!-- Resumen dinámico -->
+            <div id="summary-box" class="summary-box">
+                <div class="summary-title">Resumen de Cotización</div>
+                <ul class="summary-list">
+                    <li><span>Vehículo:</span> <span id="sum-vehiculo">-</span></li>
+                    <li><span>Producto:</span> <span id="sum-producto">-</span></li>
+                    <li><span>Material:</span> <span id="sum-material">-</span></li>
+                    <li><span>Color:</span> <span id="sum-color">-</span></li>
+                    <li><span>Diseño:</span> <span id="sum-diseno">-</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECCIÓN FORMULARIO -->
+        <div class="form-section">
+            
+            <!-- PASO 1: VEHÍCULO -->
+            <div class="card-group" id="step-1">
+                <h2 class="section-title"><span>1</span> Datos del Vehículo</h2>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="marca">Marca</label>
+                        <select id="marca">
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="modelo">Modelo</label>
+                        <select id="modelo" disabled>
+                            <option value="">Seleccione marca...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="ano">Año</label>
+                        <select id="ano">
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PASO 2: PRODUCTO -->
+            <div class="card-group step-hidden" id="step-2">
+                <h2 class="section-title"><span>2</span> Selecciona el Producto</h2>
+                <div class="options-grid">
+                    <label class="option-label">
+                        <input type="radio" name="producto" value="butacas">
+                        <div class="option-card">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18v-6a6 6 0 0 1 12 0v6M7 12a5 5 0 0 1 10 0M4 18h16v2H4zM9 8V4h6v4"/></svg>
+                            Butacas
+                        </div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="producto" value="suelo">
+                        <div class="option-card">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="10" width="18" height="10" rx="2"/><path d="M7 10l2-6h6l2 6"/></svg>
+                            Suelo
+                        </div>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="producto" value="cielo">
+                        <div class="option-card">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9a9 9 0 0 1 18 0M3 9v6M21 9v6M4 15h16"/></svg>
+                            Cielo
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- PASO 3: CONFIGURACIÓN -->
+            <div class="card-group step-hidden" id="step-3">
+                <h2 class="section-title"><span>3</span> Configura tu Tapiz</h2>
+                
+                <!-- Tipo de Tela -->
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label>Tipo de Material</label>
+                    <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+                        <label class="option-label"><input type="radio" name="tela" value="tela"><div class="option-card">Tela Común</div></label>
+                        <label class="option-label"><input type="radio" name="tela" value="pvc"><div class="option-card">Cuero Sintético (PVC)</div></label>
+                        <label class="option-label"><input type="radio" name="tela" value="cuero"><div class="option-card">Cuero Genuino</div></label>
+                        <label class="option-label"><input type="radio" name="tela" value="alcantara"><div class="option-card">Alcantara / Ante</div></label>
+                        <label class="option-label"><input type="radio" name="tela" value="premium"><div class="option-card">Tela Perforada</div></label>
+                    </div>
+                </div>
+
+                <!-- Color -->
+                <div class="input-group" style="margin-bottom: 20px;">
+                    <label>Color Principal</label>
+                    <div class="options-grid colors">
+                        <label class="option-label"><input type="radio" name="color" value="negro"><div class="option-card"><span class="color-swatch swatch-negro"></span>Negro</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="gris"><div class="option-card"><span class="color-swatch swatch-gris"></span>Gris</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="beige"><div class="option-card"><span class="color-swatch swatch-beige"></span>Beige</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="marron"><div class="option-card"><span class="color-swatch swatch-marron"></span>Marrón</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="rojo"><div class="option-card"><span class="color-swatch swatch-rojo"></span>Rojo</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="azul"><div class="option-card"><span class="color-swatch swatch-azul"></span>Azul</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="blanco"><div class="option-card"><span class="color-swatch swatch-blanco"></span>Blanco</div></label>
+                        <label class="option-label"><input type="radio" name="color" value="personalizado"><div class="option-card"><span class="color-swatch swatch-personalizado"></span>Personal.</div></label>
+                    </div>
+                </div>
+
+                <!-- Diseño -->
+                <div class="input-group">
+                    <label>Detalles y Diseño</label>
+                    <div class="options-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+                        <label class="option-label"><input type="radio" name="diseno" value="liso" checked><div class="option-card">Liso Estándar</div></label>
+                        <label class="option-label"><input type="radio" name="diseno" value="costuras"><div class="option-card">Costuras Contrastantes</div></label>
+                        <label class="option-label"><input type="radio" name="diseno" value="logo"><div class="option-card">Logos Bordados</div></label>
+                        <label class="option-label"><input type="radio" name="diseno" value="combinado"><div class="option-card">Combinado (2 tonos)</div></label>
+                        <label class="option-label"><input type="radio" name="diseno" value="ribetes"><div class="option-card">Con Ribetes</div></label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BARRA INFERIOR (PRECIO Y CTAs) -->
+    <div class="bottom-bar">
+        <div class="price-container">
+            <div class="price-label">Valor Estimado:</div>
+            <div class="price-value" id="total-price">$ 0</div>
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-secondary" id="btn-email" disabled aria-label="Enviar por Correo">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </button>
+            <button class="btn btn-primary" id="btn-whatsapp" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                Cotizar por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         LÓGICA JAVASCRIPT (VANILLA)
+         ========================================================================== -->
+    <script>
+        // --- BASE DE DATOS MOCK ---
+        const CONTACT = {
+            whatsapp: "56991906527", // Número de Autotap
+            email: "contacto@autotap.cl"
+        };
+
+        const DATA = {
+            vehiculos: {
+                "Toyota": ["Yaris", "Corolla", "Hilux", "RAV4", "4Runner"],
+                "Chevrolet": ["Sail", "Spark", "Tracker", "Colorado", "Silverado"],
+                "Hyundai": ["Accent", "Tucson", "Santa Fe", "Elantra", "Creta"],
+                "Kia": ["Morning", "Rio", "Sportage", "Sorento", "Forte"],
+                "Volkswagen": ["Gol", "Polo", "Golf", "Tiguan", "Amarok"],
+                "Ford": ["Ranger", "Explorer", "F-150", "Territory", "Escape"],
+                "Nissan": ["Versa", "Sentra", "Qashqai", "X-Trail", "Navara"],
+                "Mazda": ["Mazda 2", "Mazda 3", "CX-5", "CX-30", "BT-50"]
+            },
+            precios: {
+                base: { butacas: 180000, suelo: 95000, cielo: 120000 },
+                tela: { tela: 1.0, pvc: 1.4, cuero: 2.2, alcantara: 1.8, premium: 1.5 },
+                extras: { logo: 25000, combinado: 35000, ribetes: 18000, custom_color: 15000, liso: 0, costuras: 0 }
+            },
+            coloresHex: {
+                negro: '#1a1a1a', gris: '#5c6267', beige: '#d6c6b3', marron: '#5c3a21',
+                rojo: '#8b1c1c', azul: '#1c2b4a', blanco: '#e8e8e8', personalizado: 'url(#custom-grad)'
+            }
+        };
+
+        // --- SVGS REALISTAS (Definidos en JS para inyección dinámica) ---
+        // Estos SVGs usan sombreados (gradients/shadows) integrados para dar volumen.
+        const SVGS = {
+            butacas: `
+                <svg viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="seatShade" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#000" stop-opacity="0.6"/>
+                            <stop offset="20%" stop-color="#000" stop-opacity="0.1"/>
+                            <stop offset="50%" stop-color="#fff" stop-opacity="0.1"/>
+                            <stop offset="80%" stop-color="#000" stop-opacity="0.2"/>
+                            <stop offset="100%" stop-color="#000" stop-opacity="0.7"/>
+                        </linearGradient>
+                        <linearGradient id="custom-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff0000"/><stop offset="50%" stop-color="#00ff00"/><stop offset="100%" stop-color="#0000ff"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Respaldo Principal -->
+                    <path class="svg-base-color" d="M50 80 Q50 30 100 30 Q150 30 150 80 L160 220 Q160 250 100 250 Q40 250 40 220 Z" fill="var(--current-color)"/>
+                    <path d="M50 80 Q50 30 100 30 Q150 30 150 80 L160 220 Q160 250 100 250 Q40 250 40 220 Z" fill="url(#seatShade)"/>
+                    
+                    <!-- Panel Central (Para combinado) -->
+                    <path class="svg-combinado-panel" d="M70 80 Q70 40 100 40 Q130 40 130 80 L135 220 Q135 240 100 240 Q65 240 65 220 Z" fill="var(--current-color)" opacity="0.9"/>
+                    
+                    <!-- Asiento Inferior -->
+                    <path class="svg-base-color" d="M35 230 Q30 290 100 290 Q170 290 165 230 Z" fill="var(--current-color)"/>
+                    <path d="M35 230 Q30 290 100 290 Q170 290 165 230 Z" fill="url(#seatShade)"/>
+                    
+                    <!-- Apoyacabezas -->
+                    <path class="svg-base-color" d="M70 35 Q70 10 100 10 Q130 10 130 35 Q130 50 100 50 Q70 50 70 35 Z" fill="var(--current-color)"/>
+                    <path d="M70 35 Q70 10 100 10 Q130 10 130 35 Q130 50 100 50 Q70 50 70 35 Z" fill="url(#seatShade)"/>
+                    
+                    <!-- Líneas estructurales (Realismo) -->
+                    <path d="M60 80 L65 220 M140 80 L135 220 M50 240 L70 280 M150 240 L130 280" stroke="#000" stroke-opacity="0.3" stroke-width="2" fill="none"/>
+                    
+                    <!-- Extras de Diseño -->
+                    <path class="svg-stitching" d="M72 80 L77 215 M128 80 L123 215 M72 235 L85 285 M128 235 L115 285" fill="none"/>
+                    <path class="svg-ribete" d="M50 80 Q50 30 100 30 Q150 30 150 80 L160 220 Q160 250 100 250 Q40 250 40 220" fill="none"/>
+                    
+                    <!-- Logo Autotap -->
+                    <g class="svg-logo" transform="translate(85, 60) scale(0.6)">
+                        <path d="M10 30 L25 0 L40 30 L35 30 L25 10 L15 30 Z" />
+                        <path d="M15 20 L35 20" stroke="var(--accent-primary)" stroke-width="3"/>
+                    </g>
+                </svg>
+            `,
+            suelo: `
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="floorShade" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#fff" stop-opacity="0.1"/>
+                            <stop offset="100%" stop-color="#000" stop-opacity="0.6"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Alfombra principal -->
+                    <path class="svg-base-color" d="M40 20 L160 20 L180 180 Q180 190 100 190 Q20 190 20 180 Z" fill="var(--current-color)"/>
+                    <path d="M40 20 L160 20 L180 180 Q180 190 100 190 Q20 190 20 180 Z" fill="url(#floorShade)"/>
+                    
+                    <!-- Talonera (Heel pad) -->
+                    <path class="svg-combinado-panel" d="M60 100 L140 100 L150 160 L50 160 Z" fill="#111" opacity="0.8"/>
+                    <path d="M60 105 L140 105 M58 115 L142 115 M56 125 L144 125 M54 135 L146 135 M52 145 L148 145 M50 155 L150 155" stroke="#000" stroke-opacity="0.5" stroke-width="2"/>
+                    
+                    <!-- Extras -->
+                    <path class="svg-ribete" d="M40 20 L160 20 L180 180 Q180 190 100 190 Q20 190 20 180 Z" fill="none"/>
+                    <path class="svg-stitching" d="M45 25 L155 25 L173 175 Q173 183 100 183 Q27 183 27 175 Z" fill="none"/>
+                    <g class="svg-logo" transform="translate(85, 120) scale(0.6)">
+                        <path d="M10 30 L25 0 L40 30 L35 30 L25 10 L15 30 Z" />
+                    </g>
+                </svg>
+            `,
+            cielo: `
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="roofShade" cx="50%" cy="50%" r="70%">
+                            <stop offset="0%" stop-color="#fff" stop-opacity="0.2"/>
+                            <stop offset="80%" stop-color="#000" stop-opacity="0.4"/>
+                            <stop offset="100%" stop-color="#000" stop-opacity="0.8"/>
+                        </radialGradient>
+                    </defs>
+                    <!-- Techo Principal -->
+                    <path class="svg-base-color svg-combinado-panel" d="M10 20 Q100 0 190 20 L195 180 Q100 200 5 180 Z" fill="var(--current-color)"/>
+                    <path d="M10 20 Q100 0 190 20 L195 180 Q100 200 5 180 Z" fill="url(#roofShade)"/>
+                    
+                    <!-- Detalles del Techo (Luces, parasoles) -->
+                    <rect x="85" y="40" width="30" height="40" rx="5" fill="#333" opacity="0.6"/>
+                    <rect x="90" y="45" width="20" height="15" rx="3" fill="#fff" opacity="0.8"/>
+                    
+                    <rect x="25" y="25" width="50" height="20" rx="3" fill="#000" opacity="0.2"/>
+                    <rect x="125" y="25" width="50" height="20" rx="3" fill="#000" opacity="0.2"/>
+                    
+                    <!-- Extras -->
+                    <path class="svg-stitching" d="M10 100 L190 100 M10 140 L190 140" fill="none"/>
+                    <path class="svg-ribete" d="M10 20 Q100 0 190 20 L195 180 Q100 200 5 180 Z" fill="none"/>
+                </svg>
+            `
+        };
+
+        // --- ESTADO DE LA APLICACIÓN ---
+        let state = {
+            marca: '', modelo: '', ano: '',
+            producto: '', tela: '', color: '', diseno: 'liso',
+            precioTotal: 0
+        };
+
+        // --- REFERENCIAS DOM ---
+        const els = {
+            marca: document.getElementById('marca'),
+            modelo: document.getElementById('modelo'),
+            ano: document.getElementById('ano'),
+            step2: document.getElementById('step-2'),
+            step3: document.getElementById('step-3'),
+            radiosProd: document.querySelectorAll('input[name="producto"]'),
+            radiosTela: document.querySelectorAll('input[name="tela"]'),
+            radiosColor: document.querySelectorAll('input[name="color"]'),
+            radiosDiseno: document.querySelectorAll('input[name="diseno"]'),
+            previewPlaceholder: document.getElementById('preview-placeholder'),
+            previewVisual: document.getElementById('preview-visual'),
+            totalPrice: document.getElementById('total-price'),
+            btnWhatsApp: document.getElementById('btn-whatsapp'),
+            btnEmail: document.getElementById('btn-email'),
+            summaryBox: document.getElementById('summary-box'),
+            sVeh: document.getElementById('sum-vehiculo'),
+            sProd: document.getElementById('sum-producto'),
+            sMat: document.getElementById('sum-material'),
+            sCol: document.getElementById('sum-color'),
+            sDis: document.getElementById('sum-diseno')
+        };
+
+        // --- INICIALIZACIÓN ---
+        function init() {
+            // Cargar Años (1990 a Año actual + 1)
+            const currentYear = new Date().getFullYear();
+            for (let i = currentYear + 1; i >= 1990; i--) {
+                els.ano.add(new Option(i, i));
+            }
+            // Cargar Marcas
+            Object.keys(DATA.vehiculos).sort().forEach(marca => {
+                els.marca.add(new Option(marca, marca));
+            });
+
+            addEventListeners();
+        }
+
+        function addEventListeners() {
+            // Paso 1
+            els.marca.addEventListener('change', (e) => {
+                state.marca = e.target.value;
+                updateModelDropdown();
+                checkStep1();
+            });
+            els.modelo.addEventListener('change', (e) => { state.modelo = e.target.value; checkStep1(); });
+            els.ano.addEventListener('change', (e) => { state.ano = e.target.value; checkStep1(); });
+
+            // Paso 2 & 3 (Radios)
+            els.radiosProd.forEach(r => r.addEventListener('change', (e) => {
+                state.producto = e.target.value;
+                
+                // Defaults si no se han elegido
+                if(!state.tela) selectRadio('tela', 'tela');
+                if(!state.color) selectRadio('color', 'negro');
+                
+                els.step3.classList.remove('step-hidden');
+                
+                // Scroll suave a step 3 en mobile
+                if(window.innerWidth < 900) {
+                    els.step3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                
+                updatePreview();
+                updatePrice();
+            }));
+
+            els.radiosTela.forEach(r => r.addEventListener('change', (e) => { state.tela = e.target.value; updatePreview(); updatePrice(); }));
+            els.radiosColor.forEach(r => r.addEventListener('change', (e) => { state.color = e.target.value; updatePreview(); updatePrice(); }));
+            els.radiosDiseno.forEach(r => r.addEventListener('change', (e) => { state.diseno = e.target.value; updatePreview(); updatePrice(); }));
+
+            // Botones
+            els.btnWhatsApp.addEventListener('click', sendWhatsApp);
+            els.btnEmail.addEventListener('click', sendEmail);
+        }
+
+        // --- FUNCIONES DE LÓGICA ---
+        function updateModelDropdown() {
+            els.modelo.innerHTML = '<option value="">Seleccione...</option>';
+            if (state.marca && DATA.vehiculos[state.marca]) {
+                DATA.vehiculos[state.marca].forEach(modelo => {
+                    els.modelo.add(new Option(modelo, modelo));
+                });
+                els.modelo.disabled = false;
+            } else {
+                els.modelo.disabled = true;
+            }
+            state.modelo = '';
+        }
+
+        function checkStep1() {
+            if (state.marca && state.modelo && state.ano) {
+                els.step2.classList.remove('step-hidden');
+            } else {
+                els.step2.classList.add('step-hidden');
+                els.step3.classList.add('step-hidden');
+            }
+            updatePrice(); // Revalida botones
+        }
+
+        function selectRadio(name, value) {
+            document.querySelector(`input[name="${name}"][value="${value}"]`).checked = true;
+            state[name] = value;
+        }
+
+        // Formato moneda chilena
+        function formatMoney(amount) {
+            return '$ ' + amount.toLocaleString('es-CL');
+        }
+
+        function updatePrice() {
+            if (!state.producto || !state.tela) return;
+
+            let base = DATA.precios.base[state.producto];
+            let multiplier = DATA.precios.tela[state.tela];
+            let subtotal = base * multiplier;
+
+            let extras = 0;
+            if (state.diseno && DATA.precios.extras[state.diseno]) {
+                extras += DATA.precios.extras[state.diseno];
+            }
+            if (state.color === 'personalizado') {
+                extras += DATA.precios.extras.custom_color;
+            }
+
+            state.precioTotal = Math.round(subtotal + extras);
+            els.totalPrice.innerText = formatMoney(state.precioTotal);
+
+            checkReadyToSend();
+            updateSummary();
+        }
+
+        // --- ACTUALIZACIÓN DE PREVIEW VISUAL (CRÍTICO) ---
+        function updatePreview() {
+            if (!state.producto) return;
+
+            // Ocultar placeholder y mostrar visual
+            els.previewPlaceholder.style.display = 'none';
+            els.previewVisual.style.display = 'block';
+
+            // Inyectar SVG según el producto
+            els.previewVisual.innerHTML = SVGS[state.producto];
+
+            const svgContainer = els.previewVisual;
+
+            // 1. Aplicar Color CSS Variable para el SVG
+            let colorHex = DATA.coloresHex[state.color] || '#111';
+            if(state.color !== 'personalizado'){
+                svgContainer.style.setProperty('--current-color', colorHex);
+            } else {
+                svgContainer.style.setProperty('--current-color', 'url(#custom-grad)');
+            }
+
+            // 2. Limpiar y Aplicar Clases de Textura (Filtros)
+            svgContainer.className = 'preview-visual';
+            if (state.tela) svgContainer.classList.add(`texture-${state.tela}`);
+            if (state.diseno) svgContainer.classList.add(`design-${state.diseno}`);
+
+            // 3. Manejo especial de 'combinado'
+            if (state.diseno === 'combinado') {
+                const combinedPanels = svgContainer.querySelectorAll('.svg-combinado-panel');
+                combinedPanels.forEach(p => {
+                    p.style.fill = (state.color === 'negro' || state.color === 'gris') ? '#aa0000' : '#111';
+                });
+            }
+        }
+
+        function updateSummary() {
+            if(state.marca && state.producto && state.tela) {
+                els.summaryBox.classList.add('active');
+                els.sVeh.innerText = `${state.marca} ${state.modelo} (${state.ano})`;
+                
+                const getName = (name, val) => {
+                    const el = document.querySelector(`input[name="${name}"][value="${val}"]`);
+                    return el ? el.nextElementSibling.innerText.trim() : val;
+                };
+
+                els.sProd.innerText = getName('producto', state.producto);
+                els.sMat.innerText = getName('tela', state.tela);
+                els.sCol.innerText = getName('color', state.color).replace('Personal.', 'Personalizado');
+                els.sDis.innerText = getName('diseno', state.diseno);
+            }
+        }
+
+        function checkReadyToSend() {
+            const isReady = state.marca && state.modelo && state.ano && state.producto && state.tela && state.color && state.diseno;
+            
+            els.btnWhatsApp.disabled = !isReady;
+            els.btnEmail.disabled = !isReady;
+
+            if(isReady) {
+                els.btnWhatsApp.classList.add('ready');
+            } else {
+                els.btnWhatsApp.classList.remove('ready');
+            }
+        }
+
+        function generateMessageText() {
+            const getName = (name, val) => document.querySelector(`input[name="${name}"][value="${val}"]`).nextElementSibling.innerText.trim();
+            
+            return `*Hola Autotap!* 👋\nMe gustaría cotizar un trabajo de tapicería con las siguientes características:\n\n` +
+                   `🚗 *Vehículo:* ${state.marca} ${state.modelo} (${state.ano})\n` +
+                   `🛠️ *Producto:* ${getName('producto', state.producto)}\n` +
+                   `🧵 *Material:* ${getName('tela', state.tela)}\n` +
+                   `🎨 *Color:* ${getName('color', state.color)}\n` +
+                   `✨ *Diseño:* ${getName('diseno', state.diseno)}\n\n` +
+                   `💰 *Valor Estimado:* ${formatMoney(state.precioTotal)}\n\n` +
+                   `¿Me pueden confirmar disponibilidad y tiempos? Gracias.`;
+        }
+
+        function sendWhatsApp() {
+            const msg = encodeURIComponent(generateMessageText());
+            window.open(`https://wa.me/${CONTACT.whatsapp}?text=${msg}`, '_blank');
+        }
+
+        function sendEmail() {
+            const subject = encodeURIComponent(`Cotización Autotap - ${state.marca} ${state.modelo}`);
+            const body = encodeURIComponent(generateMessageText());
+            window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
+        }
+
+        // Arrancar
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
