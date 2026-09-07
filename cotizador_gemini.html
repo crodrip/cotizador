@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador Online - Tapicería Automotriz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Paleta de colores - Estilo Premium Oscuro con Acento Naranja */
+            --bg-body: #0d0f12;
+            --bg-surface: #1a1d24;
+            --bg-surface-hover: #242830;
+            --accent-color: #ff5722;
+            --accent-hover: #e64a19;
+            --text-main: #ffffff;
+            --text-muted: #a0aabf;
+            --border-color: #2d323e;
+            --success: #4caf50;
+            --danger: #f44336;
+            
+            /* Tipografía y Espaciado */
+            --font-family: 'Inter', system-ui, sans-serif;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 span {
+            color: var(--accent-color);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Secciones */
+        .section-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .step-indicator {
+            background-color: var(--accent-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        /* Formularios */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        select, input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: var(--bg-body);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23a0aabf' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+        }
+
+        select:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Cards de Producto */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .product-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .card-content {
+            background-color: var(--bg-body);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-content svg {
+            width: 48px;
+            height: 48px;
+            stroke: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .card-content span {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .product-card input[type="radio"]:checked + .card-content {
+            border-color: var(--accent-color);
+            background-color: rgba(255, 87, 34, 0.05);
+        }
+
+        .product-card input[type="radio"]:checked + .card-content svg {
+            stroke: var(--accent-color);
+        }
+
+        .product-card:hover .card-content {
+            border-color: var(--text-muted);
+        }
+
+        /* Resumen y Precio */
+        .summary-section {
+            background: linear-gradient(145deg, var(--bg-surface), #1e222a);
+            border: 1px solid var(--accent-color);
+        }
+
+        .price-display {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background-color: var(--bg-body);
+            border-radius: var(--radius-md);
+        }
+
+        .price-label {
+            color: var(--text-muted);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .price-value.updating {
+            animation: pulse 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .summary-details {
+            background-color: var(--bg-body);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .disclaimer {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        /* Botones */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:not(:disabled):hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        .btn-email {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-email:not(:disabled):hover {
+            background-color: var(--bg-body);
+            border-color: var(--text-muted);
+            transform: translateY(-2px);
+        }
+
+        .validation-msg {
+            color: var(--danger);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            .price-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Cotizador <span>Automotriz</span></h1>
+            <p>Configura tu tapizado y obtén un valor estimado al instante</p>
+        </header>
+
+        <main>
+            <section class="section-card" id="step-1">
+                <div class="section-header">
+                    <div class="step-indicator">1</div>
+                    <h2>Datos del Vehículo</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="marca">Marca</label>
+                        <select id="marca" required>
+                            <option value="" disabled selected>Seleccione marca</option>
+                            </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="modelo">Modelo</label>
+                        <select id="modelo" disabled required>
+                            <option value="" disabled selected>Primero seleccione marca</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="anio">Año</label>
+                        <select id="anio" required>
+                            <option value="" disabled selected>Seleccione año</option>
+                            </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-card" id="step-2">
+                <div class="section-header">
+                    <div class="step-indicator">2</div>
+                    <h2>Producto a Cotizar</h2>
+                </div>
+                <div class="product-grid">
+                    <label class="product-card">
+                        <input type="radio" name="producto" value="butacas" required>
+                        <div class="card-content">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M5 18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V9H5v9z"></path>
+                                <path d="M7 9V5c0-1.1.9-2 2-2h6c1.1 0 2 .9 2 2v4"></path>
+                                <path d="M3 11h18v2H3z"></path>
+                            </svg>
+                            <span>Butacas Completas</span>
+                        </div>
+                    </label>
+
+                    <label class="product-card">
+                        <input type="radio" name="producto" value="suelo">
+                        <div class="card-content">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 19l2-14h14l2 14H3z"></path>
+                                <path d="M3 15h18"></path>
+                                <path d="M7 19v-4"></path>
+                                <path d="M17 19v-4"></path>
+                            </svg>
+                            <span>Suelo / Alfombra</span>
+                        </div>
+                    </label>
+
+                    <label class="product-card">
+                        <input type="radio" name="producto" value="cielo">
+                        <div class="card-content">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 8l8-4 8 4"></path>
+                                <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
+                                <path d="M12 4v17"></path>
+                            </svg>
+                            <span>Cielo / Techo</span>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <section class="section-card" id="step-3" style="opacity: 0.5; pointer-events: none;">
+                <div class="section-header">
+                    <div class="step-indicator">3</div>
+                    <h2>Configuración del Tapiz</h2>
+                </div>
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="tela">Tipo de Material</label>
+                        <select id="tela" required disabled>
+                            <option value="" disabled selected>Seleccione material</option>
+                            <option value="comun">Tela Automotriz Común</option>
+                            <option value="premium">Tela Premium Perforada</option>
+                            <option value="sintetico">Cuero Sintético (Eco-cuero)</option>
+                            <option value="alcantara">Alcantara / Ante</option>
+                            <option value="genuino">Cuero Genuino</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="color">Color</label>
+                        <select id="color" required disabled>
+                            <option value="" disabled selected>Seleccione color</option>
+                            <option value="negro">Negro Clásico</option>
+                            <option value="gris">Gris Ceniza</option>
+                            <option value="beige">Beige</option>
+                            <option value="marron">Marrón / Suela</option>
+                            <option value="rojo">Rojo Deportivo</option>
+                            <option value="azul">Azul</option>
+                            <option value="blanco">Blanco</option>
+                            <option value="personalizado">Color Personalizado (+ extra)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="diseno">Estilo / Diseño</label>
+                        <select id="diseno" required disabled>
+                            <option value="" disabled selected>Seleccione diseño</option>
+                            <option value="liso">Liso Estándar</option>
+                            <option value="costuras">Costuras Contrastantes</option>
+                            <option value="ribetes">Con Ribetes Vivos</option>
+                            <option value="logos">Con Logos Bordados</option>
+                            <option value="combinado">Combinado (Dos Tonos)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-card summary-section" id="resumen-section">
+                <div class="price-display">
+                    <div class="price-label">Valor Estimado</div>
+                    <div class="price-value" id="precio-total">$0</div>
+                </div>
+
+                <div class="summary-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Vehículo</span>
+                        <span class="detail-value" id="res-vehiculo">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Producto</span>
+                        <span class="detail-value" id="res-producto">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Material y Diseño</span>
+                        <span class="detail-value" id="res-config">-</span>
+                    </div>
+                </div>
+
+                <p class="disclaimer">
+                    * Este es un precio estimado. El valor final puede variar según el estado real de la estructura del vehículo y se confirmará formalmente tras la inspección física.
+                </p>
+
+                <div class="action-buttons">
+                    <button id="btn-whatsapp" class="btn btn-whatsapp" disabled>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                        Enviar por WhatsApp
+                    </button>
+                    <button id="btn-email" class="btn btn-email" disabled>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        Solicitar por Correo
+                    </button>
+                </div>
+                <div id="validation-msg" class="validation-msg">
+                    Por favor, completa todas las selecciones para poder enviar la cotización.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        /** * CONFIGURACIÓN INICIAL (Fácil de editar) 
+         */
+        
+        // Número de WhatsApp (Incluir código de país, sin el +)
+        const WHATSAPP_NUMBER = "56912345678"; 
+        // Correo del taller
+        const EMAIL_CONTACT = "cotizaciones@tutapiceria.cl";
+
+        // Base de datos de marcas y modelos
+        const CAR_DATA = {
+            "Toyota": ["Corolla", "Hilux", "Yaris", "RAV4", "Fortuner", "Tercel"],
+            "Chevrolet": ["Spark", "Sail", "Tracker", "Captiva", "Silverado", "Colorado"],
+            "Hyundai": ["Accent", "Elantra", "Tucson", "Santa Fe", "Creta", "Grand i10"],
+            "Kia": ["Rio", "Cerato", "Sportage", "Sorento", "Seltos", "Morning"],
+            "Volkswagen": ["Golf", "Polo", "Gol", "T-Cross", "Amarok", "Virtus", "Saveiro"],
+            "Opel": ["Corsa", "Astra", "Mokka", "Crossland", "Grandland"],
+            "Ford": ["Fiesta", "Focus", "Escape", "Ranger", "Explorer", "F-150"],
+            "Nissan": ["March", "Versa", "Kicks", "X-Trail", "Frontier", "Navara", "Sentra"],
+            "Mazda": ["2", "3", "6", "CX-5", "CX-30", "BT-50"],
+            "Peugeot": ["208", "308", "2008", "3008", "Partner"],
+            "Suzuki": ["Swift", "Baleno", "Vitara", "Jimny", "Alto"]
+        };
+
+        // Precios Base por Producto (en CLP)
+        const PRECIOS_BASE = {
+            butacas: 180000,
+            suelo: 95000,
+            cielo: 120000
+        };
+
+        // Multiplicadores por Tipo de Tela
+        const MULTIPLICADORES_TELA = {
+            comun: 1.0,
+            premium: 1.5,
+            sintetico: 1.4,
+            alcantara: 1.8,
+            genuino: 2.2
+        };
+
+        // Modificadores Fijos (Extras en CLP)
+        const MODIFICADORES_DISENO = {
+            liso: 0,
+            costuras: 0,
+            ribetes: 18000,
+            logos: 25000,
+            combinado: 35000
+        };
+
+        const MODIFICADOR_COLOR_PERSONALIZADO = 15000;
+
+        /**
+         * LÓGICA DE LA INTERFAZ
+         */
+
+        // Referencias al DOM
+        const els = {
+            marca: document.getElementById('marca'),
+            modelo: document.getElementById('modelo'),
+            anio: document.getElementById('anio'),
+            productos: document.querySelectorAll('input[name="producto"]'),
+            step3: document.getElementById('step-3'),
+            tela: document.getElementById('tela'),
+            color: document.getElementById('color'),
+            diseno: document.getElementById('diseno'),
+            precioTotal: document.getElementById('precio-total'),
+            resVehiculo: document.getElementById('res-vehiculo'),
+            resProducto: document.getElementById('res-producto'),
+            resConfig: document.getElementById('res-config'),
+            btnWsp: document.getElementById('btn-whatsapp'),
+            btnEmail: document.getElementById('btn-email'),
+            valMsg: document.getElementById('validation-msg')
+        };
+
+        // Estado actual de la cotización
+        let currentQuote = {
+            marca: '', modelo: '', anio: '',
+            producto: '', tela: '', color: '', diseno: '',
+            precioTotal: 0,
+            nombres: { producto: '', tela: '', color: '', diseno: '' }
+        };
+
+        // Formateador de Moneda
+        const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('es-CL', { 
+                style: 'currency', 
+                currency: 'CLP',
+                maximumFractionDigits: 0
+            }).format(amount);
+        };
+
+        // Inicialización
+        function init() {
+            // Llenar Años (1990 a 2026)
+            const currentYear = 2026;
+            for (let i = currentYear; i >= 1990; i--) {
+                let option = document.createElement('option');
+                option.value = i;
+                option.textContent = i;
+                els.anio.appendChild(option);
+            }
+
+            // Llenar Marcas (Ordenadas alfabéticamente)
+            const marcasOrd = Object.keys(CAR_DATA).sort();
+            marcasOrd.forEach(marca => {
+                let option = document.createElement('option');
+                option.value = marca;
+                option.textContent = marca;
+                els.marca.appendChild(option);
+            });
+
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            // Cambio de Marca
+            els.marca.addEventListener('change', (e) => {
+                currentQuote.marca = e.target.value;
+                
+                // Actualizar Modelos
+                els.modelo.innerHTML = '<option value="" disabled selected>Seleccione modelo</option>';
+                const modelos = CAR_DATA[currentQuote.marca].sort();
+                modelos.forEach(mod => {
+                    let option = document.createElement('option');
+                    option.value = mod;
+                    option.textContent = mod;
+                    els.modelo.appendChild(option);
+                });
+                
+                els.modelo.disabled = false;
+                els.modelo.value = "";
+                currentQuote.modelo = "";
+                updateUI();
+            });
+
+            // Resto de inputs básicos
+            els.modelo.addEventListener('change', (e) => { currentQuote.modelo = e.target.value; updateUI(); });
+            els.anio.addEventListener('change', (e) => { currentQuote.anio = e.target.value; updateUI(); });
+
+            // Productos
+            els.productos.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentQuote.producto = e.target.value;
+                    currentQuote.nombres.producto = e.target.nextElementSibling.querySelector('span').textContent;
+                    
+                    // Habilitar Paso 3
+                    els.step3.style.opacity = '1';
+                    els.step3.style.pointerEvents = 'auto';
+                    els.tela.disabled = false;
+                    els.color.disabled = false;
+                    els.diseno.disabled = false;
+                    
+                    updateUI();
+                });
+            });
+
+            // Configuración Tapiz
+            const handleConfigChange = (el, key) => {
+                el.addEventListener('change', (e) => {
+                    currentQuote[key] = e.target.value;
+                    currentQuote.nombres[key] = e.target.options[e.target.selectedIndex].text;
+                    updateUI();
+                });
+            };
+
+            handleConfigChange(els.tela, 'tela');
+            handleConfigChange(els.color, 'color');
+            handleConfigChange(els.diseno, 'diseno');
+
+            // Botones de acción
+            els.btnWsp.addEventListener('click', sendWhatsApp);
+            els.btnEmail.addEventListener('click', sendEmail);
+            
+            // Wrapper para mostrar mensaje si intentan clickear deshabilitado
+            document.querySelector('.action-buttons').addEventListener('click', (e) => {
+                if(els.btnWsp.disabled && (e.target.closest('#btn-whatsapp') || e.target.closest('#btn-email'))) {
+                    els.valMsg.style.display = 'block';
+                    setTimeout(() => els.valMsg.style.display = 'none', 3000);
+                }
+            });
+        }
+
+        function calculatePrice() {
+            if (!currentQuote.producto || !currentQuote.tela || !currentQuote.color || !currentQuote.diseno) {
+                return 0;
+            }
+
+            let base = PRECIOS_BASE[currentQuote.producto];
+            let multiplier = MULTIPLICADORES_TELA[currentQuote.tela];
+            
+            let total = base * multiplier;
+            
+            total += MODIFICADORES_DISENO[currentQuote.diseno];
+            
+            if (currentQuote.color === 'personalizado') {
+                total += MODIFICADOR_COLOR_PERSONALIZADO;
+            }
+
+            return total;
+        }
+
+        function isFormComplete() {
+            return currentQuote.marca && currentQuote.modelo && currentQuote.anio &&
+                   currentQuote.producto && currentQuote.tela && currentQuote.color && currentQuote.diseno;
+        }
+
+        function updateUI() {
+            // Actualizar Resumen Texto
+            if(currentQuote.marca && currentQuote.modelo && currentQuote.anio) {
+                els.resVehiculo.textContent = `${currentQuote.marca} ${currentQuote.modelo} (${currentQuote.anio})`;
+            }
+            
+            if(currentQuote.nombres.producto) els.resProducto.textContent = currentQuote.nombres.producto;
+            
+            if(currentQuote.tela || currentQuote.color || currentQuote.diseno) {
+                let configTxt = [
+                    currentQuote.nombres.tela || 'Material pendiente',
+                    currentQuote.nombres.color || 'Color pendiente',
+                    currentQuote.nombres.diseno || 'Diseño pendiente'
+                ].join(' | ');
+                els.resConfig.textContent = configTxt;
+            }
+
+            // Calcular y Mostrar Precio
+            const newPrice = calculatePrice();
+            if (newPrice !== currentQuote.precioTotal) {
+                currentQuote.precioTotal = newPrice;
+                
+                // Animación
+                els.precioTotal.classList.remove('updating');
+                void els.precioTotal.offsetWidth; // trigger reflow
+                els.precioTotal.classList.add('updating');
+                
+                els.precioTotal.textContent = newPrice > 0 ? formatCurrency(newPrice) : '$0';
+            }
+
+            // Habilitar / Deshabilitar Botones
+            const complete = isFormComplete();
+            els.btnWsp.disabled = !complete;
+            els.btnEmail.disabled = !complete;
+            if(complete) els.valMsg.style.display = 'none';
+        }
+
+        function generateMessageText() {
+            return `¡Hola! Me gustaría confirmar una cotización de tapicería realizada en la web:%0A%0A` +
+                   `🚗 *VEHÍCULO:* ${currentQuote.marca} ${currentQuote.modelo} (${currentQuote.anio})%0A` +
+                   `🛠️ *TRABAJO:* ${currentQuote.nombres.producto}%0A` +
+                   `🧵 *MATERIAL:* ${currentQuote.nombres.tela}%0A` +
+                   `🎨 *COLOR:* ${currentQuote.nombres.color}%0A` +
+                   `✨ *DISEÑO:* ${currentQuote.nombres.diseno}%0A%0A` +
+                   `💰 *VALOR ESTIMADO:* ${formatCurrency(currentQuote.precioTotal)}%0A%0A` +
+                   `Quedo atento/a a sus comentarios para coordinar una inspección. ¡Gracias!`;
+        }
+
+        function sendWhatsApp() {
+            if(!isFormComplete()) return;
+            const text = generateMessageText();
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+            window.open(url, '_blank');
+        }
+
+        function sendEmail() {
+            if(!isFormComplete()) return;
+            const subject = encodeURIComponent(`Cotización Web - ${currentQuote.marca} ${currentQuote.modelo}`);
+            const body = generateMessageText().replace(/%0A/g, '\r\n');
+            const url = `mailto:${EMAIL_CONTACT}?subject=${subject}&body=${encodeURIComponent(body)}`;
+            window.location.href = url;
+        }
+
+        // Arrancar
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
