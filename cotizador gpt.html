@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0F0F0F">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Personaliza el interior de tu auto con Autotap. Explora materiales en 3D y solicita una cotización de tapicería en Santiago.">
+  <title>Cotizador 3D · Autotap</title>
+  <meta name="application-name" content="Autotap Cotizador 3D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700;750;800;900&display=swap" rel="stylesheet">
+  <!-- Versiones fijadas: Three.js y todos sus addons deben usar la misma versión.
+       Documentación: https://threejs.org/docs/pages/OrbitControls.html
+       El archivo se puede abrir directamente. Three.js y Google Fonts requieren internet. -->
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"}}
+  </script>
+  <style>
+    :root{--bg:#0f0f0f;--surface:#1a1a1a;--card:#1f1f1f;--raised:#2a2a2a;--text:#fff;--muted:#a0a0a0;--red:#e63946;--amber:#ffb703;--green:#2ecc71;--line:#343434;--radius:18px;--font:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px;color-scheme:dark}body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.55 var(--font);-webkit-font-smoothing:antialiased;padding-bottom:110px}button,input,select{font:inherit}button,a,input,select{-webkit-tap-highlight-color:transparent}button,a{touch-action:manipulation}button{cursor:pointer}a{color:inherit;text-decoration:none}button{color:inherit}button:disabled{cursor:wait;opacity:.4}button:active:not(:disabled),.choice:active{transform:scale(.98)}:focus-visible{outline:3px solid var(--amber);outline-offset:4px}input,select{min-width:0}h1,h2,h3,p{margin:0}fieldset{border:0;padding:0;margin:0;min-width:0}legend{padding:0}svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}[hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip{position:fixed;top:10px;left:10px;z-index:20;padding:12px;background:var(--red);transform:translateY(-150%)}.skip:focus{transform:translateY(0)}
+    .header{border-top:3px solid var(--red);border-bottom:1px solid #ffffff10;background:#0f0f0ff2}.header-inner,.container{width:min(1200px,100% - 36px);margin-inline:auto}.header-inner{min-height:80px;display:flex;align-items:center;justify-content:space-between;gap:16px}.wordmark{font-size:30px;line-height:1;font-weight:900;letter-spacing:-1.4px;font-style:italic}.wordmark span{color:var(--red)}.brand-caption{display:block;font-size:12px;letter-spacing:1.3px;color:#b3b3b3;font-weight:600;margin-top:7px}.header-link{font-size:13px;color:#c7c7c7;display:flex;align-items:center;gap:7px;min-height:44px}.header-link svg{width:17px}.intro{padding:30px 0 23px}.eyebrow{font-size:12px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:var(--red);margin-bottom:10px}.intro h1{font-size:clamp(29px,5.8vw,44px);line-height:1.12;letter-spacing:-1.5px;font-weight:750}.intro h1 span{color:#9d9d9d}.intro p{color:var(--muted);font-size:14px;margin-top:12px;max-width:600px}.steps{display:flex;gap:0;list-style:none;padding:0 0 22px;margin:0}.steps li{flex:1;min-width:0}.steps a{display:flex;align-items:center;gap:6px;color:#a9a9a9;min-height:44px;font-size:12px;font-weight:550}.steps span{display:grid;place-items:center;border:1px solid #484848;border-radius:50%;width:23px;height:23px;font-size:12px;flex-shrink:0}.steps li:first-child span{background:var(--red);border-color:var(--red);color:white}.steps a:hover{color:white}
+    .workspace{display:grid;grid-template-areas:"vehicle" "product" "viewer" "configuration" "summary";gap:16px;align-items:start}.section{background:var(--surface);border:1px solid #ffffff0e;border-radius:var(--radius);padding:21px;min-width:0;scroll-margin-top:20px}.section-title{display:flex;align-items:center;gap:11px;margin-bottom:20px}.section-title .number{font-size:12px;color:var(--red);font-weight:700;letter-spacing:1px}.section-title h2,.section-title legend{font-size:18px;font-weight:650;letter-spacing:-.4px}.section-title .tag{margin-left:auto;color:var(--muted);font-size:12px}.vehicle{grid-area:vehicle}.product{grid-area:product}.configuration{grid-area:configuration}.summary{grid-area:summary}.fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:14px}.field:first-child{grid-column:1/-1}.field label,.field-label{display:block;font-size:14px;font-weight:550;margin-bottom:8px}.select-wrap{position:relative}.select-wrap::after{content:"";position:absolute;right:17px;top:20px;width:7px;height:7px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(45deg);pointer-events:none}select,input[type=text]{width:100%;min-height:50px;background:var(--card);border:1px solid #3b3b3b;border-radius:9px;color:white;padding:12px 36px 12px 14px;appearance:none}select:disabled{color:#888;background:#1c1c1c;opacity:.75}select:hover:not(:disabled),input[type=text]:hover{border-color:#626262}select:focus,input[type=text]:focus{border-color:var(--red)}.field-note{font-size:12px;color:var(--muted);margin-top:10px}.field-error{border-color:var(--red)!important}
+    .product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.choice{position:relative;display:block;cursor:pointer}.choice>input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}.choice>input:focus-visible+span{outline:3px solid var(--amber);outline-offset:4px}.product-option{display:flex;align-items:center;flex-direction:column;justify-content:center;gap:6px;padding:17px 5px 14px;min-height:120px;border-radius:12px;border:1px solid #3a3a3a;background:#212121;transition:background .2s,border-color .2s;pointer-events:none}.product-option svg{width:33px;height:33px;color:#a7a7a7;margin-bottom:4px}.product-option strong{font-weight:600;font-size:14px}.product-option small{font-size:12px;color:var(--muted)}.choice>input:checked+.product-option{border-color:var(--red);background:linear-gradient(150deg,#e639461a,#e6394605)}.choice>input:checked+.product-option svg{color:#ff626b}.choice>input:checked+.product-option::after{content:"";position:absolute;right:8px;top:9px;width:5px;height:5px;background:var(--red);border-radius:50%}
+    .viewer-card{grid-area:viewer;min-width:0;background:#181819;border:1px solid #ffffff13;border-radius:var(--radius);overflow:hidden}.viewer-heading{display:flex;align-items:flex-start;justify-content:space-between;padding:21px 21px 0;gap:10px}.viewer-heading h2{font-size:23px;letter-spacing:-.6px;line-height:1.3}.viewer-kicker{color:#a8a8a8;text-transform:uppercase;font-size:12px;letter-spacing:2px;margin-bottom:5px}.live-label{display:flex;align-items:center;gap:6px;color:#bfbfbf;font-size:12px;padding:6px 9px;border:1px solid #ffffff18;border-radius:6px;white-space:nowrap}.live-label::before{content:"";width:5px;height:5px;background:var(--green);border-radius:50%}.live-label[data-status=loading]::before,.live-label[data-status=error]::before{background:var(--amber)}.viewer-host{height:clamp(330px,95vw,470px);position:relative;background:radial-gradient(ellipse at 50% 40%,#292a2d00,#10101140);isolation:isolate}.viewer-host canvas{position:absolute;inset:0;width:100%;height:100%;display:block;outline-offset:-4px;transition:opacity .16s ease;touch-action:none}.viewer-overlay{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:30px;background:radial-gradient(ellipse,#262627,#181819);text-align:center}.viewer-overlay p{font-size:14px;color:#c0c0c0;max-width:280px}.spinner{width:34px;height:34px;border:2px solid #ffffff18;border-top-color:var(--red);border-radius:50%;animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.viewer-tools{display:flex;justify-content:center;gap:8px;padding:0 18px 15px;flex-wrap:wrap}.tool{display:flex;align-items:center;justify-content:center;gap:7px;min-width:44px;min-height:44px;border:1px solid #414141;background:#242425;border-radius:9px;padding:9px 12px;font-size:12px;transition:background .2s}.tool svg{width:17px;height:17px}.tool:hover{background:#333}.tool[aria-pressed=true]{background:#e639461c;color:#ff6f79;border-color:#e6394660}.viewer-hint{text-align:center;color:#949494;font-size:12px;padding:0 15px 19px}.viewer-finish{display:flex;align-items:center;gap:11px;border-block:1px solid #ffffff0c;padding:15px 20px;background:#ffffff03}.material-dot{width:32px;height:32px;border-radius:50%;border:1px solid #ffffff30;box-shadow:inset 0 0 0 3px #ffffff08;background:#252629;flex-shrink:0}.finish-copy{min-width:0}.finish-copy strong{display:block;font-size:13px;font-weight:600}.finish-copy span{display:block;font-size:12px;color:var(--muted);overflow-wrap:anywhere}.finish-view{margin-left:auto;font-size:12px;color:#a0a0a0;white-space:nowrap}.viewer-note{padding:15px 20px;color:#8f8f8f;font-size:12px;line-height:1.6}
+    .config-block+.config-block{border-top:1px solid #ffffff10;margin-top:23px;padding-top:22px}.label-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.label-row legend,.label-row .field-label{margin:0;font-size:14px;font-weight:550}.label-row output{color:var(--muted);font-size:12px}.fabric-list{display:grid;gap:8px}.fabric-option{display:flex;align-items:center;gap:12px;background:#212121;border:1px solid #383838;border-radius:10px;min-height:60px;padding:11px 12px;pointer-events:none;transition:border-color .2s,background .2s}.fabric-texture{height:31px;width:31px;border-radius:6px;flex-shrink:0;border:1px solid #ffffff25;background-color:#4b4b4b}.fabric-texture.cloth{background-image:repeating-linear-gradient(0deg,#ffffff16 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,#0004 0 1px,transparent 1px 3px)}.fabric-texture.pvc{background:linear-gradient(135deg,#727272,#303030 60%,#494949)}.fabric-texture.leather{background:radial-gradient(ellipse at 20% 15%,#897768,#554435 60%)}.fabric-texture.alcantara{background:repeating-linear-gradient(128deg,#65666a 0 1px,#606165 1px 3px)}.fabric-texture.perforated{background:radial-gradient(#141414 24%,transparent 28%) 0 0/5px 5px,#696969}.fabric-copy{min-width:0;flex:1}.fabric-copy strong{display:block;font-size:14px;font-weight:550}.fabric-copy small{display:block;color:var(--muted);font-size:12px;margin-top:2px}.multiplier{color:#aaa;font-size:12px;white-space:nowrap}.radio-mark{width:15px;height:15px;border:1px solid #6a6a6a;border-radius:50%;flex-shrink:0}.choice>input:checked+.fabric-option{border-color:#e6394680;background:#e639460a}.choice>input:checked+.fabric-option .radio-mark{border:4px solid var(--red);background:#fff}.color-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 8px}.color-option{display:flex;align-items:center;flex-direction:column;gap:7px;padding:4px 1px 5px;border-radius:8px;pointer-events:none}.color-chip{display:block;width:39px;height:39px;border-radius:50%;background:var(--swatch);border:1px solid #ffffff30;position:relative}.color-chip::after{content:"";position:absolute;inset:-5px;border:1.5px solid transparent;border-radius:50%;transition:border-color .2s}.color-option small{font-size:12px;color:#aaa;text-align:center;max-width:100%;overflow-wrap:anywhere}.choice>input:checked+.color-option .color-chip::after{border-color:var(--red)}.choice>input:checked+.color-option small{color:white}.custom-chip{background:conic-gradient(#e85c66,#e8ce74,#66bfa2,#5c8cb6,#a778bd,#e85c66)}.sub-config{margin-top:16px;padding:14px;background:#ffffff04;border:1px solid #ffffff12;border-radius:10px}.sub-config label{font-size:13px;margin-bottom:8px;display:block}.custom-picker{display:flex;gap:12px;align-items:center}.custom-picker input[type=color]{width:60px;height:46px;padding:3px;border:1px solid #555;border-radius:8px;background:var(--raised);cursor:pointer}.custom-picker output{font-size:14px;color:#ccc}.extra{color:var(--amber);font-size:12px;margin-left:auto}.design-list{display:grid;gap:8px}.design-option{display:flex;align-items:center;gap:10px;border:1px solid #383838;border-radius:9px;padding:12px;min-height:49px;pointer-events:none;font-size:14px;background:#212121}.design-option .design-name{flex:1}.design-option small{font-size:12px;color:#aaa;white-space:nowrap}.choice>input:checked+.design-option{border-color:#e6394680;background:#e639460a}.choice>input:checked+.design-option .radio-mark{border:4px solid var(--red);background:white}.design-symbol{width:26px;height:18px;border:1px solid #666;border-radius:4px;flex-shrink:0}.design-symbol.stitch{outline:1px dashed #e58489;outline-offset:-4px}.design-symbol.logo{font-size:9px;text-align:center;line-height:16px;color:#eee}.design-symbol.duo{background:linear-gradient(90deg,#272727 50%,#b8a78b 50%)}.design-symbol.piping{border:2px solid #e58489}
+    .summary .section-title{margin-bottom:23px}.summary-grid{display:grid;gap:26px}.summary-list{margin:0;display:grid;gap:11px}.summary-list div{display:grid;grid-template-columns:92px minmax(0,1fr);gap:15px;font-size:14px}.summary-list dt{color:var(--muted)}.summary-list dd{margin:0;overflow-wrap:anywhere;font-weight:500}.summary-list .missing{color:#d2aa58;font-weight:400}.estimate{background:#141a16;border:1px solid #2ecc7128;border-radius:13px;padding:20px}.estimate-label{color:#b9c5bd;font-size:13px}.price-line{display:flex;align-items:baseline;gap:9px;margin:5px 0 10px;flex-wrap:wrap}.price{font-size:clamp(34px,8vw,43px);letter-spacing:-1.8px;line-height:1.2;font-weight:750;color:var(--green);font-variant-numeric:tabular-nums}.currency{font-size:12px;color:#81978a}.price-note{color:#a4aca7;font-size:12px;line-height:1.6}details{margin-top:16px;border-top:1px solid #ffffff10;padding-top:12px}details summary{font-size:12px;color:#c0cbc4;cursor:pointer;min-height:32px;align-content:center}details dl{margin:10px 0 0;font-size:12px;color:#aeb8b1}details dl div{display:flex;justify-content:space-between;gap:10px;margin-top:7px}details dd{margin:0;color:#d5ddd8;white-space:nowrap}.send-actions{display:grid;gap:10px;margin-top:20px}.button{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;border-radius:10px;min-height:54px;padding:13px 17px;font-size:14px;font-weight:650;transition:background .2s,transform .15s}.button-primary{background:var(--red);color:white;box-shadow:0 4px 20px #e6394619}.button-primary:hover{background:#f14957}.button-secondary{background:#262626;border-color:#454545}.button-secondary:hover{background:#323232}.send-note{font-size:12px;color:var(--muted);margin-top:13px;text-align:center}.error{color:#ffb3b8;background:#e6394612;border:1px solid #e6394650;padding:12px 14px;border-radius:9px;font-size:13px;margin-top:16px}.send-feedback{font-size:13px;color:#c8c8c8;margin-top:14px}.send-feedback a{text-decoration:underline;text-underline-offset:3px;color:#fff}.summary-foot{font-size:12px;color:#8e8e8e;margin-top:20px;padding-top:17px;border-top:1px solid #ffffff0e}.footer{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:25px 0 10px;color:#838383;font-size:12px}.footer a{min-height:32px;display:inline-flex;align-items:center}.quote-bar{position:fixed;bottom:0;left:0;right:0;z-index:10;background:#1b1b1bf5;border-top:1px solid #ffffff1a;padding:12px max(18px,env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom));backdrop-filter:blur(16px);transition:transform .2s,visibility .2s}.quote-bar-inner{display:flex;align-items:center;justify-content:space-between;gap:18px;width:min(1200px,100%);margin:auto}.bar-price small{font-size:12px;color:#aaa;display:block}.bar-price strong{font-size:25px;font-weight:750;color:var(--green);letter-spacing:-.8px;line-height:1.3;white-space:nowrap;font-variant-numeric:tabular-nums}.quote-bar .button{min-height:48px;font-size:13px;padding:12px 17px}.quote-bar.is-hidden{transform:translateY(110%);visibility:hidden}
+    @media(min-width:600px){.header-inner,.container{width:min(1200px,100% - 64px)}.header-inner{min-height:90px}.wordmark{font-size:36px}.header-link{font-size:14px}.steps{max-width:600px}.steps a{font-size:14px;gap:9px}.steps span{width:27px;height:27px;font-size:12px}.section{padding:27px}.fields{grid-template-columns:1fr 1fr .75fr}.field:first-child{grid-column:auto}.product-option{min-height:132px}.product-option strong{font-size:16px}.product-option small{font-size:12px}.color-grid{grid-template-columns:repeat(8,minmax(0,1fr))}.summary-grid{grid-template-columns:1fr 1fr;gap:30px}.send-actions{grid-template-columns:1fr 1fr}.viewer-host{height:510px}}
+    @media(min-width:960px){body{padding-bottom:100px}.intro{padding-top:35px}.intro p{font-size:15px}.workspace{grid-template-columns:minmax(340px,.85fr) minmax(0,1.15fr);grid-template-areas:"vehicle viewer" "product viewer" "configuration viewer" "summary summary";gap:18px 28px}.viewer-card{position:sticky;top:22px;align-self:start}.viewer-host{height:clamp(420px,58vh,620px)}.viewer-heading{padding:26px 28px 0}.viewer-heading h2{font-size:27px}.viewer-finish{padding:17px 27px}.viewer-note{padding:16px 27px}.fields{grid-template-columns:1fr .7fr}.field:first-child{grid-column:1/-1}.color-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.color-option{padding-block:7px}.section{padding:25px}.summary{margin-top:10px;padding:30px}.summary-grid{grid-template-columns:1fr 1fr;gap:55px}.send-actions{max-width:560px;margin-left:auto}.send-note{text-align:right}.summary-list div{grid-template-columns:110px 1fr;font-size:15px}.intro h1{font-size:42px}.quote-bar .button{min-width:210px}.brand-caption{font-size:12px}}
+    @media(max-width:359px){.header-inner,.container{width:calc(100% - 24px)}.header-link{font-size:12px}.wordmark{font-size:26px}.section{padding:16px}.steps a{font-size:12px;gap:4px}.steps span{width:20px;height:20px}.product-option small{font-size:12px}.quote-bar-inner{gap:10px}.quote-bar .button{padding-inline:12px}.bar-price strong{font-size:23px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.spinner{border-color:#777;border-top-color:var(--red)}}
+
+    /* Revisión 2: controles de inspección y contraste accesible. */
+    .view-tabs{display:flex;justify-content:center;gap:3px;margin:0 22px 13px;padding:4px;background:#111214;border:1px solid #ffffff12;border-radius:10px}
+    .view-tabs button{flex:1;min-height:42px;padding:8px 10px;border:0;border-radius:7px;background:transparent;color:#b8bac0;font-size:12px;font-weight:600;transition:background .2s,color .2s}
+    .view-tabs button[aria-pressed=true]{color:#fff;background:#35373c;box-shadow:0 2px 6px #0003}
+    .construction-note{color:#d8d9db;font-size:12px;line-height:1.6;padding:14px 20px 0;border-top:1px solid #ffffff0b}
+    .viewer-note{padding-top:8px}
+    .viewer-host{height:clamp(365px,105vw,500px)}
+    .button-primary{background:#ce2d3b}.button-primary:hover{background:#dc3442}
+    .fabric-copy small{line-height:1.45}.color-option{min-height:67px}.design-option{padding:13px 11px}
+    .finish-view{white-space:normal;max-width:86px;text-align:right}
+    .preview-shortcut{margin-top:20px}.viewer-shortcut{margin:4px 20px 18px;min-height:44px}.viewer-card{scroll-margin-top:18px}
+    @media(min-width:960px){.viewer-host{height:clamp(445px,60vh,650px)}.construction-note{padding-inline:27px}.view-tabs{margin-inline:27px}}
+    @media(min-width:960px){.preview-shortcut,.viewer-shortcut{display:none}}
+    @media(max-width:359px){.design-option{gap:7px}.design-symbol{width:20px}.design-option small{font-size:12px}.brand-caption{font-size:12px;letter-spacing:.35px}.header-link{font-size:12px}.steps a{flex-direction:column;justify-content:center;gap:5px;min-height:60px}.quote-bar .button{font-size:12px;white-space:nowrap;padding-inline:12px;gap:8px}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#vehicle">Ir al cotizador</a>
+  <!-- Iconos de interfaz embebidos. Los modelos visibles se generan con geometría 3D real. -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="i-seat" viewBox="0 0 32 32"><path d="M11 10 9 22c-.3 2 1 3 3 3h13v-5H15l2-9M12 7l1-4h7l-1 5zM12 28h14M17 25v3"/><path d="m11 14 4 1m-5 3 4 1"/></symbol>
+      <symbol id="i-floor" viewBox="0 0 32 32"><path d="m8 5 7 2 2-2 7 2 4 20-11-2-3 2-10-2zM15 7l-1 20M17 5l1 20M8 13l4 1m-5 4 5 1m8-6 4 1m-4 5 5 1"/></symbol>
+      <symbol id="i-roof" viewBox="0 0 32 32"><path d="M4 24V12c0-9 24-9 24 0v12c-6-5-18-5-24 0Z"/><path d="M4 14c6-5 18-5 24 0M13 12h6v4h-6zM7 19v-3m18 3v-3"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+      <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 10a9 9 0 1 1 2 8M3 4v6h6"/></symbol>
+      <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M17 4 21 8l-4 4M21 8H10a6 6 0 0 0-5.7 4M7 20l-4-4 4-4M3 16h11a6 6 0 0 0 5.7-4"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></symbol>
+      <symbol id="i-wa" viewBox="0 0 24 24"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.4-4.7a8.5 8.5 0 1 1 16.1-4.2Z"/><path d="M8 7.5c-.8 1 .4 3.3 2.1 5s4 2.9 5 2.1l1-1.3-2.5-1.4-.8.8a8 8 0 0 1-2.7-2.7l.8-.8-1.4-2.5Z"/></symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    </defs>
+  </svg>
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" aria-label="Autotap, inicio"><div class="wordmark">AUTO<span>TAP</span></div><span class="brand-caption">TAPICERÍA DESDE 1995</span></a>
+      <a class="header-link" href="https://www.instagram.com/autotap.cl/" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-instagram"/></svg>@autotap.cl</a>
+    </div>
+  </header>
+  <main class="container">
+    <div class="intro">
+      <div class="eyebrow">Cotizador de tapicería · Santiago</div>
+      <h1>Tu interior. <span>A tu medida.</span></h1>
+      <p>Elige tus acabados, explora cada detalle en 3D y cotiza con nosotros.</p>
+    </div>
+    <nav aria-label="Pasos del cotizador"><ol class="steps"><li><a href="#vehicle"><span>1</span>Vehículo</a></li><li><a href="#product"><span>2</span>Producto</a></li><li><a href="#configuration"><span>3</span>Acabados</a></li><li><a href="#summary"><span>4</span>Resumen</a></li></ol></nav>
+    <noscript><p class="error">Activa JavaScript para configurar el tapiz, calcular el precio y visualizar el modelo 3D.</p></noscript>
+    <form id="quoteForm" novalidate>
+      <div class="workspace">
+        <section class="section vehicle" id="vehicle" aria-labelledby="vehicleTitle">
+          <div class="section-title"><span class="number">01</span><h2 id="vehicleTitle">Tu vehículo</h2><span class="tag">Obligatorio</span></div>
+          <div class="fields">
+            <div class="field"><label for="brand">Marca</label><div class="select-wrap"><select id="brand" name="brand" required><option value="">Selecciona la marca</option></select></div></div>
+            <div class="field"><label for="model">Modelo</label><div class="select-wrap"><select id="model" name="model" required disabled><option value="">Elige marca</option></select></div></div>
+            <div class="field"><label for="year">Año</label><div class="select-wrap"><select id="year" name="year" required><option value="">Año</option></select></div></div>
+          </div>
+        </section>
+        <section class="section product" id="product" aria-labelledby="productTitle">
+          <div class="section-title"><span class="number">02</span><h2 id="productTitle">¿Qué renovamos?</h2></div>
+          <fieldset><legend class="sr-only">Selecciona un producto</legend><div class="product-grid" id="productOptions"></div></fieldset>
+        </section>
+        <section class="viewer-card" id="visualizer" aria-labelledby="viewerTitle">
+          <div class="viewer-heading"><div><p class="viewer-kicker">Tu configuración</p><h2 id="viewerTitle">Butacas</h2></div><span class="live-label" id="liveBadge" data-status="loading">Vista 3D</span></div>
+          <div class="viewer-host" id="viewerHost" aria-busy="true">
+            <div class="viewer-overlay" id="viewerOverlay" role="status"><div class="spinner" id="spinner" aria-hidden="true"></div><p id="viewerStatus">Preparando materiales y modelos 3D…</p><button class="tool" id="retry3d" type="button" hidden>Reintentar visualizador</button></div>
+          </div>
+          <div class="view-tabs" aria-label="Ángulos del modelo"><button type="button" id="viewPerspective" aria-pressed="true" disabled>Perspectiva</button><button type="button" id="viewFront" aria-pressed="false" disabled>Frente</button><button type="button" id="viewDetail" aria-pressed="false" disabled>Detalle</button></div>
+          <div class="viewer-tools" aria-label="Controles del visualizador">
+            <button type="button" class="tool" id="resetView" disabled title="Restablecer vista"><svg aria-hidden="true"><use href="#i-reset"/></svg><span>Restablecer</span></button>
+            <button type="button" class="tool" id="autoRotate" aria-pressed="false" disabled title="Activar giro automático"><svg aria-hidden="true"><use href="#i-rotate"/></svg><span>Giro</span></button>
+            <button type="button" class="tool" id="zoomIn" disabled aria-label="Acercar modelo"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+            <button type="button" class="tool" id="zoomOut" disabled aria-label="Alejar modelo"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>
+          </div>
+          <p class="viewer-hint" id="viewerHint">Arrastra para girar · Pellizca para acercar</p>
+          <div class="viewer-finish"><span class="material-dot" id="materialDot" aria-hidden="true"></span><div class="finish-copy"><strong id="finishMaterial">Tela común</strong><span id="finishDescription">Negro · Liso</span></div><span class="finish-view" id="finishView">Vista referencial</span></div>
+          <p class="construction-note" id="constructionNote">Paneles contiguos con uniones de confección.</p><p class="viewer-note">Modelo genérico de referencia; no reproduce tu vehículo. La forma, el tono y la disponibilidad del material se confirman con una evaluación y muestras reales.</p>
+          <a class="button button-secondary viewer-shortcut" href="#configuration">Personalizar mis acabados<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </section>
+        <section class="section configuration" id="configuration" aria-labelledby="configTitle">
+          <div class="section-title"><span class="number">03</span><h2 id="configTitle">Dale tu estilo</h2></div>
+          <fieldset class="config-block"><legend class="field-label">Tipo de tela</legend><div class="fabric-list" id="fabricOptions"></div></fieldset>
+          <fieldset class="config-block"><legend class="sr-only">Color principal</legend><div class="label-row"><span class="field-label">Color principal</span><output id="colorName">Negro</output></div><div class="color-grid" id="colorOptions"></div>
+            <div class="sub-config" id="customPanel" hidden><label for="customColor">Elige tu color personalizado</label><div class="custom-picker"><input type="color" id="customColor" name="customColor" value="#a95636" disabled><output id="customCode" for="customColor">#A95636</output><span class="extra">+$15.000</span></div></div>
+          </fieldset>
+          <fieldset class="config-block"><legend class="field-label">Diseño</legend><div class="design-list" id="designOptions"></div>
+            <div class="sub-config" id="secondaryPanel" hidden><label for="secondaryColor" id="secondaryLabel">Segundo tono · insertos centrales</label><div class="select-wrap"><select id="secondaryColor" name="secondaryColor" disabled></select></div></div>
+            <div class="sub-config" id="logoPanel" hidden><label for="logoText">Texto del bordado</label><input type="text" id="logoText" name="logoText" maxlength="14" value="AUTOTAP" autocomplete="off" spellcheck="false" disabled><p class="field-note">Hasta 14 caracteres. El logo definitivo se coordina con el taller.</p></div>
+          </fieldset>
+          <a class="button button-secondary preview-shortcut" href="#visualizer">Ver mi diseño en 3D<svg aria-hidden="true"><use href="#i-rotate"/></svg></a>
+        </section>
+        <section class="section summary" id="summary" aria-labelledby="summaryTitle" tabindex="-1">
+          <div class="section-title"><span class="number">04</span><h2 id="summaryTitle">Tu próxima renovación</h2></div>
+          <div class="summary-grid">
+            <dl class="summary-list"><div><dt>Vehículo</dt><dd id="summaryVehicle" class="missing">Completa marca, modelo y año</dd></div><div><dt>Producto</dt><dd id="summaryProduct">Butacas</dd></div><div><dt>Material</dt><dd id="summaryFabric">Tela común</dd></div><div><dt>Color</dt><dd id="summaryColor">Negro</dd></div><div><dt>Diseño</dt><dd id="summaryDesign">Liso</dd></div></dl>
+            <div class="estimate"><p class="estimate-label">Precio aproximado</p><div class="price-line"><output class="price" id="totalPrice">$180.000</output><span class="currency">CLP</span></div><p class="price-note">Estimación orientativa. El valor final y el alcance del trabajo se confirman al evaluar tu vehículo.</p><details><summary>Ver detalle del precio</summary><dl><div><dt>Base del producto</dt><dd id="basePrice">$180.000</dd></div><div><dt id="materialPriceLabel">Material · ×1,0</dt><dd id="materialExtra">$0</dd></div><div><dt>Extra por diseño</dt><dd id="designExtra">$0</dd></div><div><dt>Color personalizado</dt><dd id="colorExtra">$0</dd></div></dl></details></div>
+          </div>
+          <p id="formError" class="error" role="alert" hidden></p>
+          <div class="send-actions"><button type="submit" name="channel" value="whatsapp" class="button button-primary"><svg aria-hidden="true"><use href="#i-wa"/></svg>Enviar por WhatsApp</button><button type="submit" name="channel" value="email" class="button button-secondary"><svg aria-hidden="true"><use href="#i-mail"/></svg>Enviar por Correo</button></div>
+          <p class="send-note">Sin compromiso. Revisa y confirma el envío en tu aplicación.</p>
+          <p id="sendFeedback" class="send-feedback" role="status" hidden><span id="sendFeedbackText"></span> <a id="preparedLink" rel="noopener noreferrer">Abrir mensaje</a></p>
+          <p class="summary-foot">Autotap · Tapicería automotriz desde 1995 · Santiago, Chile.</p>
+        </section>
+      </div>
+    </form>
+    <footer class="footer"><span>Hecho a tu medida. Desde 1995.</span><a href="tel:+56991906527">+56 9 9190 6527</a></footer>
+  </main>
+  <div class="quote-bar" id="quoteBar"><div class="quote-bar-inner"><div class="bar-price"><small>Precio aproximado · CLP</small><strong id="barPrice">$180.000</strong></div><a class="button button-primary" href="#summary">Ver mi resumen<svg aria-hidden="true"><use href="#i-arrow"/></svg></a></div></div>
+  <p class="sr-only" id="priceAnnouncement" role="status" aria-live="polite" aria-atomic="true"></p>
+
+  <script>
+  (() => {
+    'use strict';
+    /* ================================================================
+       1. DATOS EDITABLES: empresa, catálogo, precios, multiplicadores.
+       No se envía información hasta que el cliente confirma en su app.
+       Correo público de Autotap: info@autotap.cl. Verificar al publicar.
+       No se presupone cantidad de butacas ni se agregan impuestos no definidos.
+       ================================================================ */
+    const COMPANY = Object.freeze({name:'Autotap', whatsapp:'56991906527', email:'info@autotap.cl'});
+    const VEHICLES = {
+      Toyota:['Yaris','Corolla','Corolla Cross','RAV4','Hilux','Land Cruiser','4Runner'],
+      Chevrolet:['Spark','Sail','Onix','Aveo','Cruze','Tracker','Captiva','D-Max','Silverado'],
+      Hyundai:['Accent','Grand i10','i20','Elantra','Tucson','Santa Fe','Creta','H-1'],
+      Kia:['Morning','Rio','Cerato','Soluto','Seltos','Sportage','Sorento','Carnival'],
+      Volkswagen:['Gol','Polo','Golf','Bora','Jetta','Virtus','T-Cross','Tiguan','Amarok'],
+      Ford:['Fiesta','Focus','Fusion','EcoSport','Escape','Explorer','Ranger','F-150','Mustang'],
+      Nissan:['March','Versa','Sentra','Tiida','Kicks','Qashqai','X-Trail','NP300','Navara'],
+      Mazda:['Mazda2','Mazda3','Mazda6','CX-3','CX-30','CX-5','CX-9','BT-50']
+    };
+    const PRODUCTS = {seats:{name:'Butacas',base:180000,icon:'seat'},floor:{name:'Suelo',base:95000,icon:'floor'},roof:{name:'Cielo',base:120000,icon:'roof'}};
+    const FABRICS = {
+      cloth:{name:'Tela común',factor:1,description:'Trama textil · acabado mate',roughness:.94,bump:.018,sheen:.22,coat:0},
+      pvc:{name:'Cuero sintético (PVC)',factor:1.4,description:'Grano fino · satinado suave',roughness:.49,bump:.010,sheen:0,coat:.16},
+      leather:{name:'Cuero genuino',factor:2.2,description:'Grano natural · brillo sutil',roughness:.43,bump:.016,sheen:0,coat:.08},
+      alcantara:{name:'Alcantara / Ante',factor:1.8,description:'Microfibra · efecto aterciopelado',roughness:.96,bump:.011,sheen:.95,coat:0},
+      perforated:{name:'Tela premium perforada',factor:1.5,description:'Microperforado · textura técnica',roughness:.78,bump:.022,sheen:.25,coat:0}
+    };
+    const COLORS = {black:{name:'Negro',hex:'#252629'},gray:{name:'Gris',hex:'#7e8286'},beige:{name:'Beige',hex:'#c7b395'},brown:{name:'Marrón',hex:'#774b35'},red:{name:'Rojo',hex:'#ac2538'},blue:{name:'Azul',hex:'#254e7e'},white:{name:'Blanco',hex:'#e9e7e0'},custom:{name:'Personalizado',hex:'#a95636'}};
+    const DESIGNS = {plain:{name:'Liso',extra:0,symbol:''},stitch:{name:'Con costuras contrastantes',extra:0,symbol:'stitch'},logo:{name:'Con logos bordados',extra:25000,symbol:'logo'},duo:{name:'Combinado (dos tonos)',extra:35000,symbol:'duo'},piping:{name:'Con ribetes',extra:18000,symbol:'piping'}};
+    const CUSTOM_COLOR_EXTRA=15000;
+    const state={brand:'',model:'',year:'',product:'seats',fabric:'cloth',color:'black',customColor:'#a95636',design:'plain',secondary:'beige',logo:'AUTOTAP'};
+    const $=id=>document.getElementById(id);
+    const number=new Intl.NumberFormat('es-CL',{maximumFractionDigits:0});
+    const money=value=>'$'+number.format(Math.round(value));
+    const multiplier=value=>value.toFixed(1).replace('.',',');
+    const form=$('quoteForm');
+    let engine=null,announceTimer=0;
+
+    /* Una única función calcula tanto la pantalla como los mensajes. */
+    function calculate(s=state){const base=PRODUCTS[s.product].base;const subtotal=Math.round(base*FABRICS[s.fabric].factor);const design=DESIGNS[s.design].extra;const custom=s.color==='custom'?CUSTOM_COLOR_EXTRA:0;return{base,material:subtotal-base,design,custom,total:subtotal+design+custom};}
+    const mainHex=()=>state.color==='custom'?state.customColor:COLORS[state.color].hex;
+    const colorDescription=()=>state.color==='custom'?'Personalizado ('+state.customColor.toUpperCase()+')':COLORS[state.color].name;
+    const designDescription=()=>DESIGNS[state.design].name+(state.design==='logo'?' · '+(state.logo.trim()||'Texto pendiente'):'');
+    const completeVehicle=()=>Boolean(state.brand&&state.model&&state.year);
+    const vehicleDescription=()=>[state.brand,state.model,state.year].filter(Boolean).join(' · ');
+    function addOption(select,value,label){select.add(new Option(label,value));}
+    Object.keys(VEHICLES).forEach(brand=>addOption($('brand'),brand,brand));
+    for(let year=2026;year>=1990;year--)addOption($('year'),String(year),String(year));
+    Object.entries(COLORS).filter(([key])=>key!=='custom').forEach(([key,color])=>addOption($('secondaryColor'),key,color.name));
+    $('secondaryColor').value=state.secondary;
+    $('productOptions').innerHTML=Object.entries(PRODUCTS).map(([key,p])=>`<label class="choice"><input type="radio" name="product" value="${key}" ${key===state.product?'checked':''} required><span class="product-option"><svg aria-hidden="true"><use href="#i-${p.icon}"/></svg><strong>${p.name}</strong><small>Base ${money(p.base)}</small></span></label>`).join('');
+    $('fabricOptions').innerHTML=Object.entries(FABRICS).map(([key,f])=>`<label class="choice"><input type="radio" name="fabric" value="${key}" ${key===state.fabric?'checked':''} required><span class="fabric-option"><span class="fabric-texture ${key}" aria-hidden="true"></span><span class="fabric-copy"><strong>${f.name}</strong><small>${f.description}</small></span><span class="multiplier">×${multiplier(f.factor)}</span><span class="radio-mark" aria-hidden="true"></span></span></label>`).join('');
+    $('colorOptions').innerHTML=Object.entries(COLORS).map(([key,c])=>`<label class="choice"><input type="radio" name="color" value="${key}" ${key===state.color?'checked':''} required><span class="color-option"><span class="color-chip ${key==='custom'?'custom-chip':''}" style="--swatch:${c.hex}" aria-hidden="true"></span><small>${c.name}</small></span></label>`).join('');
+    $('designOptions').innerHTML=Object.entries(DESIGNS).map(([key,d])=>`<label class="choice"><input type="radio" name="design" value="${key}" ${key===state.design?'checked':''} required><span class="design-option"><span class="design-symbol ${d.symbol}" aria-hidden="true">${key==='logo'?'AT':''}</span><span class="design-name">${d.name}</span><small>${d.extra?'+'+money(d.extra):'Incluido'}</small><span class="radio-mark" aria-hidden="true"></span></span></label>`).join('');
+
+    function synchronize(){
+      // Dos tonos siempre distintos, incluso si el principal es personalizado.
+      const selectedHex=mainHex().toLowerCase();
+      for(const option of $('secondaryColor').options)option.disabled=COLORS[option.value].hex.toLowerCase()===selectedHex;
+      if(COLORS[state.secondary].hex.toLowerCase()===selectedHex)state.secondary=selectedHex===COLORS.beige.hex?'black':'beige';
+      $('secondaryColor').value=state.secondary;
+      const p=calculate();const color=colorDescription();
+      const combined=state.design==='duo';const custom=state.color==='custom';const logo=state.design==='logo';
+      $('customPanel').hidden=!custom;$('customColor').disabled=!custom;
+      $('secondaryPanel').hidden=!combined;$('secondaryColor').disabled=!combined;
+      $('logoPanel').hidden=!logo;$('logoText').disabled=!logo;$('logoText').required=logo;
+      $('logoText').setCustomValidity(logo&&!state.logo.trim()?'Escribe el texto del bordado.':'');
+      $('customCode').textContent=state.customColor.toUpperCase();
+      $('colorName').textContent=COLORS[state.color].name;
+      $('viewerTitle').textContent=PRODUCTS[state.product].name;
+      $('finishMaterial').textContent=FABRICS[state.fabric].name;
+      $('finishDescription').textContent=color+' · '+DESIGNS[state.design].name;
+      $('finishView').textContent=state.product==='roof'?'Vista interior':'Vista referencial';
+      const construction = {
+        seats:{plain:'Uniones de confección e hilo al tono.',stitch:'Doble pespunte en uniones de insertos y laterales.',duo:'Segundo tono en los insertos del respaldo y del cojín.',piping:'Ribete en el contorno cara–lateral del cojín, respaldo y apoyacabezas.',logo:'Bordado sobre la cara del apoyacabezas.'},
+        floor:{plain:'Piso moldeado y cuatro alfombrillas con remate perimetral.',stitch:'Pespunte contrastante en el remate de las alfombrillas.',duo:'Segundo tono en las cuatro alfombrillas.',piping:'Ribete siguiendo el borde de cada alfombrilla.',logo:'Bordado sobre una alfombrilla.'},
+        roof:{plain:'Cielo curvo con panel central personalizado.',stitch:'Pespunte en la unión del panel central personalizado.',duo:'Segundo tono en el panel central del cielo.',piping:'Ribete en el contorno del panel central personalizado.',logo:'Bordado sobre el panel central.'}
+      };
+      $('constructionNote').textContent=construction[state.product][state.design];
+      $('secondaryLabel').textContent='Segundo tono · '+({seats:'insertos centrales',floor:'alfombrillas',roof:'panel central'}[state.product]);
+      $('materialDot').style.background=combined?`linear-gradient(90deg,${mainHex()} 50%,${COLORS[state.secondary].hex} 50%)`:mainHex();
+      $('summaryVehicle').textContent=completeVehicle()?vehicleDescription():(vehicleDescription()?vehicleDescription()+' · Faltan datos':'Completa marca, modelo y año');
+      $('summaryVehicle').classList.toggle('missing',!completeVehicle());
+      $('summaryProduct').textContent=PRODUCTS[state.product].name;
+      $('summaryFabric').textContent=FABRICS[state.fabric].name;
+      $('summaryColor').textContent=color+(combined?' + '+COLORS[state.secondary].name:'');
+      $('summaryDesign').textContent=designDescription();
+      $('totalPrice').textContent=$('barPrice').textContent=money(p.total);
+      $('basePrice').textContent=money(p.base);
+      $('materialExtra').textContent=money(p.material);
+      $('materialPriceLabel').textContent='Extra material · ×'+multiplier(FABRICS[state.fabric].factor);
+      $('designExtra').textContent=money(p.design);$('colorExtra').textContent=money(p.custom);
+      clearTimeout(announceTimer);announceTimer=setTimeout(()=>{$('priceAnnouncement').textContent='Precio aproximado: '+money(p.total)+' pesos chilenos.';},350);
+      $('sendFeedback').hidden=true;
+      if(form.checkValidity())$('formError').hidden=true;
+      engine?.update();
+    }
+    form.addEventListener('change',event=>{
+      const input=event.target;
+      if(input.id==='brand'){
+        state.brand=input.value;state.model='';$('model').replaceChildren(new Option(state.brand?'Selecciona':'Elige marca',''));
+        $('model').disabled=!state.brand;(VEHICLES[state.brand]||[]).forEach(model=>addOption($('model'),model,model));
+      }else if(input.id==='model')state.model=input.value;
+      else if(input.id==='year')state.year=input.value;
+      else if(['product','fabric','color','design'].includes(input.name))state[input.name]=input.value;
+      else if(input.id==='secondaryColor')state.secondary=input.value;
+      else return;
+      input.classList.remove('field-error');input.removeAttribute('aria-invalid');synchronize();
+    });
+    $('customColor').addEventListener('input',event=>{state.customColor=event.target.value;synchronize();});
+    $('logoText').addEventListener('input',event=>{state.logo=event.target.value;if(state.logo.trim()){event.target.classList.remove('field-error');event.target.removeAttribute('aria-invalid');}synchronize();});
+
+    function quoteMessage(){
+      const p=calculate();
+      return ['Hola, equipo de '+COMPANY.name+' 👋','Me gustaría cotizar la renovación del tapiz de mi vehículo.','',
+        '🚗 Vehículo: '+vehicleDescription(),'Producto: '+PRODUCTS[state.product].name,'Material: '+FABRICS[state.fabric].name,
+        'Color: '+colorDescription()+(state.design==='duo'?' + '+COLORS[state.secondary].name:''),'Diseño: '+designDescription(),'',
+        'Detalle de la estimación:','• Base: '+money(p.base),'• Extra material (×'+multiplier(FABRICS[state.fabric].factor)+'): '+money(p.material),
+        '• Extra diseño: '+money(p.design),'• Color personalizado: '+money(p.custom),'💰 Precio aproximado: '+money(p.total)+' CLP','',
+        'Entiendo que el precio, el alcance del trabajo, la compatibilidad del material y el modelo/año están sujetos a evaluación.',
+        '¿Podrían confirmar disponibilidad y los próximos pasos? Gracias.'].join('\n');
+    }
+    form.addEventListener('submit',event=>{
+      event.preventDefault();
+      if(!form.checkValidity()||!completeVehicle()){
+        const invalid=form.querySelector(':invalid');
+        $('formError').textContent=!completeVehicle()?'Completa marca, modelo y año antes de enviar tu cotización.':'Completa el texto del bordado antes de enviar.';
+        $('formError').hidden=false;
+        if(invalid){invalid.classList.add('field-error');invalid.setAttribute('aria-invalid','true');invalid.focus();invalid.reportValidity();}
+        return;
+      }
+      $('formError').hidden=true;
+      const isEmail=event.submitter?.value==='email';const message=quoteMessage();
+      const url=isEmail?'mailto:'+COMPANY.email+'?subject='+encodeURIComponent('Cotización '+COMPANY.name+' · '+vehicleDescription())+'&body='+encodeURIComponent(message):'https://wa.me/'+COMPANY.whatsapp+'?text='+encodeURIComponent(message);
+      const link=$('preparedLink');link.href=url;link.target=isEmail?'_self':'_blank';link.textContent=isEmail?'Abrir correo':'Abrir WhatsApp';
+      $('sendFeedbackText').textContent=isEmail?'Tu mensaje está preparado. Confirma el envío en tu aplicación de correo.':'Tu mensaje está preparado. Confirma el envío en WhatsApp.';
+      $('sendFeedback').hidden=false;link.click();
+    });
+    if('IntersectionObserver' in window)new IntersectionObserver(entries=>{const bar=$('quoteBar');bar.classList.toggle('is-hidden',entries[0].isIntersecting&&!bar.contains(document.activeElement));},{threshold:.12}).observe($('summary'));
+    synchronize();
+
+    /* ================================================================
+       VISUALIZADOR 3D · AUTOTAP / REVISIÓN 2
+       Unidades del modelo: aproximadamente 1 unidad = 0,5 m.
+
+       Construcción tomada como referencia:
+       - https://katzkin.com/product-options/ : insertos, cuerpo y ribetes.
+       - https://www.sailrite.com/french-seam-construction-tutorial :
+         doble pespunte paralelo, a unos 4 mm de la unión de paneles.
+       - https://hskg.com.au/seams-for-auto-upholstery/ : costura de unión,
+         pespuntes y cordón insertado en la unión cara / lateral.
+
+       Los paneles de la butaca comparten una misma superficie matemática:
+       el cambio de color NO superpone láminas ni altera la forma.
+       Hilos y ribetes siguen la posición y normal de esa superficie.
+       Cambiar buildSeat / buildFloor / buildRoof para otros modelos.
+       Los modelos son referenciales y no son patrones de fabricación.
+       ================================================================ */
+    let initializing = false;
+
+    async function initialize3D() {
+      if (initializing || engine) return;
+      initializing = true;
+      const host = $('viewerHost');
+      $('viewerOverlay').hidden = false;
+      $('spinner').hidden = false;
+      $('retry3d').hidden = true;
+      $('viewerStatus').textContent = 'Preparando el estudio y los materiales…';
+      $('liveBadge').textContent = 'Preparando 3D';
+      $('liveBadge').dataset.status = 'loading';
+      host.setAttribute('aria-busy', 'true');
+      let cleanup = () => {};
+      const loadNotice = setTimeout(() => {
+        $('viewerStatus').textContent = 'La carga está tardando. Comprueba tu conexión a internet.';
+      }, 14000);
+
+      try {
+        const [THREE, { OrbitControls }, { RoundedBoxGeometry }, { RoomEnvironment }] = await Promise.all([
+          import('three'),
+          import('three/addons/controls/OrbitControls.js'),
+          import('three/addons/geometries/RoundedBoxGeometry.js'),
+          import('three/addons/environments/RoomEnvironment.js')
+        ]);
+        const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+        const mobile = matchMedia('(max-width: 767px)').matches;
+        const abort = new AbortController();
+        const on = (el, type, fn) => el.addEventListener(type, fn, { signal: abort.signal });
+        const scene = new THREE.Scene();
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'default' });
+        cleanup = () => { abort.abort(); renderer.dispose(); renderer.domElement.remove(); };
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.65 : 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.05;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFShadowMap;
+        renderer.shadowMap.autoUpdate = false;
+        renderer.setClearColor(0x181819, 0);
+        host.appendChild(renderer.domElement);
+        const canvas = renderer.domElement;
+        canvas.tabIndex = 0;
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-describedby', 'viewerHint');
+
+        const camera = new THREE.PerspectiveCamera(34, 1, .05, 60);
+        const controls = new OrbitControls(camera, canvas);
+        Object.assign(controls, {
+          enableDamping: true, dampingFactor: .095, enablePan: false,
+          rotateSpeed: .65, zoomSpeed: .75, autoRotateSpeed: .65,
+          minPolarAngle: .10, maxPolarAngle: Math.PI * .84
+        });
+        controls.touches.ONE = THREE.TOUCH.ROTATE;
+        controls.touches.TWO = THREE.TOUCH.DOLLY_ROTATE;
+        let environment;
+        function refreshEnvironment() {
+          const room = new RoomEnvironment(), generator = new THREE.PMREMGenerator(renderer);
+          const next = generator.fromScene(room, .035);
+          room.dispose(); generator.dispose(); environment?.dispose();
+          environment = next; scene.environment = next.texture;
+          scene.environmentIntensity = .55;
+        }
+        refreshEnvironment();
+        scene.add(new THREE.HemisphereLight(0xe8edff, 0x3b332d, 1.65));
+        const key = new THREE.DirectionalLight(0xfff4e7, 3.3);
+        key.position.set(-3.4, 5.5, 4.4); key.castShadow = true;
+        key.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+        Object.assign(key.shadow.camera, { left: -3, right: 3, top: 3.6, bottom: -2.8, near: .5, far: 14 });
+        key.shadow.normalBias = .012; key.shadow.bias = -.00015; key.shadow.radius = 4;
+        scene.add(key);
+        const rim = new THREE.DirectionalLight(0xc6d9ff, 2.1);
+        rim.position.set(3.2, 3.8, -3.5); scene.add(rim);
+        const fill = new THREE.DirectionalLight(0xffffff, .75);
+        fill.position.set(2.6, 1.5, 4); scene.add(fill);
+
+        /* PBR procedural: albedo, normal y rugosidad independientes. */
+        let seed = 728291;
+        const random = () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+        const textureCache = {};
+        const ownedTextures = new Set();
+        const ownedMaterials = new Set();
+        const S = 512;
+        const smooth = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+        const mix = (a, b, t) => a + (b - a) * t;
+        const gauss = (x, center, width) => Math.exp(-Math.pow((x - center) / width, 2));
+        const material = (Constructor, settings) => { const value = new Constructor(settings); ownedMaterials.add(value); return value; };
+
+        function noiseField(gridSize) {
+          const grid = Float32Array.from({ length: gridSize * gridSize }, random);
+          return (x, y) => {
+            const gx = x / S * gridSize, gy = y / S * gridSize;
+            const ix = Math.floor(gx), iy = Math.floor(gy);
+            const tx = smooth(0, 1, gx - ix), ty = smooth(0, 1, gy - iy);
+            const at = (a, b) => grid[((b + gridSize) % gridSize) * gridSize + ((a + gridSize) % gridSize)];
+            return mix(mix(at(ix, iy), at(ix + 1, iy), tx), mix(at(ix, iy + 1), at(ix + 1, iy + 1), tx), ty);
+          };
+        }
+        function dataTexture(data, colorSpace, repeat) {
+          const texture = new THREE.DataTexture(data, S, S, THREE.RGBAFormat);
+          texture.colorSpace = colorSpace;
+          texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+          texture.magFilter = THREE.LinearFilter;
+          texture.minFilter = THREE.LinearMipmapLinearFilter;
+          texture.generateMipmaps = true;
+          texture.repeat.set(repeat, repeat);
+          texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+          texture.needsUpdate = true; ownedTextures.add(texture);
+          return texture;
+        }
+        function makeTexture(type) {
+          const height = new Float32Array(S * S);
+          const color = new Uint8Array(S * S * 4), roughness = new Uint8Array(S * S * 4);
+          const normals = new Uint8Array(S * S * 4);
+          const broad = noiseField(20), medium = noiseField(70), fine = noiseField(160);
+          for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+            const i = y * S + x, n = fine(x, y), m = medium(x, y), b = broad(x, y);
+            let h, albedo, rough;
+            if (type === 'cloth') {
+              const warp = .5 + .5 * Math.cos(x * Math.PI / 4);
+              const weft = .5 + .5 * Math.cos(y * Math.PI / 4);
+              const over = (Math.floor(x / 8) + Math.floor(y / 8)) % 2;
+              h = .23 + .47 * (over ? warp : weft) + .09 * n;
+              albedo = 223 + 22 * h + (n - .5) * 12; rough = 228 + 20 * n;
+            } else if (type === 'alcantara') {
+              h = .25 + .30 * n + .12 * m;
+              albedo = 228 + 13 * b + (n - .5) * 14; rough = 233 + 18 * n;
+            } else if (type === 'perforated') {
+              const dx = (x % 32) - 16, dy = (y % 32) - 16;
+              const hole = 1 - smooth(3.6, 5.3, Math.hypot(dx, dy));
+              h = .68 - .56 * hole + .055 * m;
+              albedo = 237 - 170 * hole + (n - .5) * 8; rough = 195 + 40 * hole + 13 * m;
+            } else {
+              const grain = Math.pow(Math.abs(m - .5) * 2, .65);
+              h = .30 + .27 * grain + .14 * b + .07 * n;
+              albedo = 232 + (b - .5) * 13 + (grain - .5) * 12;
+              rough = (type === 'pvc' ? 175 : 192) + 35 * m + 12 * n;
+            }
+            height[i] = h;
+            const k = i * 4, c = Math.max(0, Math.min(255, Math.round(albedo)));
+            color[k] = color[k + 1] = color[k + 2] = c; color[k + 3] = 255;
+            roughness[k] = roughness[k + 1] = roughness[k + 2] = Math.min(255, rough); roughness[k + 3] = 255;
+          }
+          for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+            const at = (xx, yy) => height[((yy + S) % S) * S + ((xx + S) % S)];
+            const nx = (at(x - 1, y) - at(x + 1, y)) * 2.6;
+            const ny = (at(x, y - 1) - at(x, y + 1)) * 2.6;
+            const inv = 1 / Math.hypot(nx, ny, 1), k = (y * S + x) * 4;
+            normals[k] = (nx * inv * .5 + .5) * 255;
+            normals[k + 1] = (ny * inv * .5 + .5) * 255;
+            normals[k + 2] = (inv * .5 + .5) * 255; normals[k + 3] = 255;
+          }
+          const repeat = type === 'perforated' ? 8 : type === 'cloth' ? 5 : 4.5;
+          return {
+            map: dataTexture(color, THREE.SRGBColorSpace, repeat),
+            normal: dataTexture(normals, THREE.NoColorSpace, repeat),
+            roughness: dataTexture(roughness, THREE.NoColorSpace, repeat)
+          };
+        }
+        const fabricTexture = key => textureCache[key] || (textureCache[key] = makeTexture(key));
+        const primary = material(THREE.MeshPhysicalMaterial, { color: mainHex(), roughness: .94, metalness: 0, sheenRoughness: .7, side: THREE.DoubleSide });
+        const panel = material(THREE.MeshPhysicalMaterial, { color: mainHex(), roughness: .94, metalness: 0, sheenRoughness: .7, side: THREE.DoubleSide });
+        const plastic = material(THREE.MeshStandardMaterial, { color: '#202226', roughness: .75 });
+        const metal = material(THREE.MeshStandardMaterial, { color: '#a9afb6', metalness: .92, roughness: .23 });
+        const darkMetal = material(THREE.MeshStandardMaterial, { color: '#343a40', metalness: .65, roughness: .42 });
+        const grooveMat = material(THREE.MeshStandardMaterial, { color: '#101113', roughness: 1 });
+        const threadPrimary = material(THREE.MeshStandardMaterial, { color: '#4a4b4e', roughness: .8 });
+        const threadPanel = material(THREE.MeshStandardMaterial, { color: '#4a4b4e', roughness: .8 });
+        const pipingMat = material(THREE.MeshStandardMaterial, { color: '#e63946', roughness: .57 });
+        const fixedRed = material(THREE.MeshStandardMaterial, { color: '#d93142', roughness: .62 });
+        const threadGeometry = new THREE.CylinderGeometry(1, 1, 1, 5, 1, false);
+        const axisY = new THREE.Vector3(0, 1, 0);
+        const seamBatches = new Map();
+
+        function mesh(geometry, mat, parent, position = [0, 0, 0], name = '') {
+          const object = new THREE.Mesh(geometry, mat); object.position.set(...position);
+          object.castShadow = true; object.receiveShadow = true; object.name = name; parent.add(object); return object;
+        }
+        function rounded(parent, w, h, d, r, mat, position, rx = 0, rz = 0) {
+          const geometry = new RoundedBoxGeometry(w, h, d, 5, r);
+          // UV en unidades físicas: una misma densidad de grano en todas las piezas.
+          const uv = geometry.getAttribute('uv'), normal = geometry.getAttribute('normal');
+          for (let i = 0; i < uv.count; i++) {
+            const nx = Math.abs(normal.getX(i)), ny = Math.abs(normal.getY(i));
+            uv.setXY(i, uv.getX(i) * (nx > .8 ? d : w), uv.getY(i) * (ny > .8 ? d : h));
+          }
+          const object = mesh(geometry, mat, parent, position); object.rotation.set(rx, 0, rz); return object;
+        }
+        function surface(parent, fn, mat, { nu = 36, nv = 44, flip = false, range = [0, 1, 0, 1], uvAxes = [0, 2], name = '' } = {}) {
+          const positions = [], uv = [], indices = [];
+          const [u0, u1, v0, v1] = range;
+          for (let j = 0; j <= nv; j++) for (let i = 0; i <= nu; i++) {
+            const p = fn(mix(u0, u1, i / nu), mix(v0, v1, j / nv));
+            positions.push(...p); uv.push(p[uvAxes[0]], p[uvAxes[1]]);
+          }
+          for (let j = 0; j < nv; j++) for (let i = 0; i < nu; i++) {
+            const a = j * (nu + 1) + i, b = a + 1, d = a + nu + 1, c = d + 1;
+            if (flip) indices.push(a, d, b, b, d, c); else indices.push(a, b, d, b, c, d);
+          }
+          const geometry = new THREE.BufferGeometry();
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+          geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+          geometry.setIndex(indices); geometry.computeVertexNormals();
+          return mesh(geometry, mat, parent, [0, 0, 0], name);
+        }
+        function modelGroup(name) {
+          const g = new THREE.Group(), pipes = new THREE.Group(), logos = new THREE.Group();
+          g.name = name; pipes.name = 'ribetes'; logos.name = 'bordados';
+          g.add(pipes, logos); g.userData = { pipes, logos, seamPaths: [], samples: [] };
+          seamBatches.set(g, { primary: [], panel: [] }); return g;
+        }
+        const lineUV = (a, b) => t => [mix(a[0], b[0], t), mix(a[1], b[1], t)];
+        function rectanglePath(u0, v0, u1, v1) {
+          return t => {
+            const q = ((t % 1) + 1) % 1 * 4;
+            if (q < 1) return [mix(u0, u1, q), v0];
+            if (q < 2) return [u1, mix(v0, v1, q - 1)];
+            if (q < 3) return [mix(u1, u0, q - 2), v1];
+            return [u0, mix(v1, v0, q - 3)];
+          };
+        }
+        function roundedPath(u0, v0, u1, v1, radius) {
+          const points = [];
+          for (const [cx, cy, start] of [[u1 - radius, v0 + radius, -Math.PI / 2], [u1 - radius, v1 - radius, 0], [u0 + radius, v1 - radius, Math.PI / 2], [u0 + radius, v0 + radius, Math.PI]]) {
+            for (let i = 0; i <= 10; i++) {
+              const a = start + i / 10 * Math.PI / 2; points.push([cx + radius * Math.cos(a), cy + radius * Math.sin(a)]);
+            }
+          }
+          // Longitud en UV para evitar acelerar en las esquinas.
+          const length = [0]; let total = 0;
+          for (let i = 0; i < points.length; i++) {
+            const a = points[i], b = points[(i + 1) % points.length]; total += Math.hypot(b[0] - a[0], b[1] - a[1]); length.push(total);
+          }
+          return t => {
+            const d = (((t % 1) + 1) % 1) * total; let i = 0;
+            while (i < points.length - 1 && length[i + 1] < d) i++;
+            const a = points[i], b = points[(i + 1) % points.length], k = (d - length[i]) / (length[i + 1] - length[i]);
+            return [mix(a[0], b[0], k), mix(a[1], b[1], k)];
+          };
+        }
+        function frameAt(fn, u, v, flip = false) {
+          const e = .0001, a = fn(u - e, v), b = fn(u + e, v), c = fn(u, v - e), d = fn(u, v + e);
+          const du = new THREE.Vector3(b[0] - a[0], b[1] - a[1], b[2] - a[2]).multiplyScalar(.5 / e);
+          const dv = new THREE.Vector3(d[0] - c[0], d[1] - c[1], d[2] - c[2]).multiplyScalar(.5 / e);
+          const normal = du.clone().cross(dv).normalize(); if (flip) normal.negate();
+          return { point: new THREE.Vector3(...fn(u, v)), du, dv, normal };
+        }
+        function offsetPoint(fn, path, t, distance, lift, flip, closed) {
+          const sample = closed ? ((t % 1) + 1) % 1 : Math.max(0, Math.min(1, t));
+          const [u, v] = path(sample), f = frameAt(fn, u, v, flip), e = .0003;
+          const aUV = path(closed ? (sample - e + 1) % 1 : Math.max(0, sample - e));
+          const bUV = path(closed ? (sample + e) % 1 : Math.min(1, sample + e));
+          const tangent = new THREE.Vector3(...fn(...bUV)).sub(new THREE.Vector3(...fn(...aUV))).normalize();
+          const across = f.normal.clone().cross(tangent).normalize();
+          const A = f.du.lengthSq(), B = f.du.dot(f.dv), C = f.dv.lengthSq(), det = A * C - B * B;
+          const D = across.dot(f.du) * distance, E = across.dot(f.dv) * distance;
+          const uu = Math.max(.0001, Math.min(.9999, u + (det > 1e-12 ? (D * C - E * B) / det : 0)));
+          const vv = Math.max(.0001, Math.min(.9999, v + (det > 1e-12 ? (E * A - D * B) / det : 0)));
+          const surfaceFrame = frameAt(fn, uu, vv, flip);
+          return { point: surfaceFrame.point.clone().addScaledVector(surfaceFrame.normal, lift), normal: surfaceFrame.normal, u: uu, v: vv };
+        }
+        function tubePoints(parent, points, radius, mat, closed = false, segments = 5) {
+          const positions = [], normals = [], uv = [], indices = [];
+          const count = points.length;
+          for (let i = 0; i < count; i++) {
+            const prev = points[closed ? (i - 1 + count) % count : Math.max(0, i - 1)].point;
+            const next = points[closed ? (i + 1) % count : Math.min(count - 1, i + 1)].point;
+            const tangent = next.clone().sub(prev).normalize();
+            let side = tangent.clone().cross(points[i].normal).normalize();
+            if (side.lengthSq() < .01) side = tangent.clone().cross(new THREE.Vector3(1, .1, 0)).normalize();
+            const up = side.clone().cross(tangent).normalize();
+            for (let k = 0; k <= segments; k++) {
+              const angle = k / segments * Math.PI * 2;
+              const normal = up.clone().multiplyScalar(Math.cos(angle)).addScaledVector(side, Math.sin(angle));
+              const p = points[i].point.clone().addScaledVector(normal, radius);
+              positions.push(p.x, p.y, p.z); normals.push(normal.x, normal.y, normal.z); uv.push(k / segments, i / count);
+            }
+          }
+          for (let i = 0; i < (closed ? count : count - 1); i++) for (let k = 0; k < segments; k++) {
+            const a = i * (segments + 1) + k, b = a + 1, c = ((i + 1) % count) * (segments + 1) + k, d = c + 1;
+            indices.push(a, c, b, b, c, d);
+          }
+          const geometry = new THREE.BufferGeometry();
+          geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+          geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+          geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); geometry.setIndex(indices);
+          const object = mesh(geometry, mat, parent); object.castShadow = false; return object;
+        }
+        function seam(g, fn, path, { flip = false, closed = false, rows = [-.008, .008], pipe = false, groove = true, role = () => 'primary', name = '' } = {}) {
+          const resolution = 180, lengths = [0]; let previous = new THREE.Vector3(...fn(...path(0))), total = 0;
+          for (let i = 1; i <= resolution; i++) {
+            const t = closed && i === resolution ? 0 : i / resolution;
+            const point = new THREE.Vector3(...fn(...path(t))); total += point.distanceTo(previous); lengths.push(total); previous = point;
+          }
+          const atDistance = d => {
+            const target = Math.max(0, Math.min(total - 1e-8, d)); let lo = 0, hi = resolution;
+            while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (lengths[mid] <= target) lo = mid; else hi = mid; }
+            return (lo + (target - lengths[lo]) / Math.max(1e-10, lengths[hi] - lengths[lo])) / resolution;
+          };
+          const samples = [];
+          for (let i = 0; i <= resolution; i++) {
+            if (closed && i === resolution) break;
+            samples.push(offsetPoint(fn, path, i / resolution, 0, pipe ? .001 : .0009, flip, closed));
+          }
+          if (groove) tubePoints(g, samples, .00125, grooveMat, closed, 4);
+          if (pipe) tubePoints(g.userData.pipes, samples, .0042, pipingMat, closed, 6);
+          const batch = seamBatches.get(g);
+          const pitch = .0105, stitchLength = .0074;
+          for (const row of rows) for (let distance = closed ? 0 : .014; distance < total - (closed ? 0 : .020); distance += pitch) {
+            const start = atDistance(distance), end = atDistance(Math.min(total - .0001, distance + stitchLength));
+            const a = offsetPoint(fn, path, start, row, .0018, flip, closed);
+            const b = offsetPoint(fn, path, end, row, .0018, flip, closed);
+            const length = a.point.distanceTo(b.point); if (length < .002 || length > .018) continue;
+            batch[role(a.u, a.v)].push({ a: a.point, b: b.point, length });
+          }
+          g.userData.seamPaths.push({ name, total, count: samples.length, pipe });
+          g.userData.samples.push(...samples.filter((_, i) => i % 15 === 0));
+        }
+        function finishThreads(g) {
+          const batches = seamBatches.get(g);
+          for (const role of ['primary', 'panel']) {
+            const stitches = batches[role]; if (!stitches.length) continue;
+            const instances = new THREE.InstancedMesh(threadGeometry, role === 'panel' ? threadPanel : threadPrimary, stitches.length);
+            const transform = new THREE.Object3D();
+            for (let i = 0; i < stitches.length; i++) {
+              const { a, b, length } = stitches[i]; transform.position.copy(a).lerp(b, .5);
+              transform.quaternion.setFromUnitVectors(axisY, b.clone().sub(a).normalize());
+              transform.scale.set(.00105, length, .00105); transform.updateMatrix(); instances.setMatrixAt(i, transform.matrix);
+            }
+            instances.instanceMatrix.needsUpdate = true; instances.castShadow = false; instances.receiveShadow = true;
+            instances.name = 'pespuntes-' + role; instances.computeBoundingSphere(); g.add(instances);
+          }
+          seamBatches.delete(g);
+        }
+        function bodyEdges(g, frontFn, backFn, mat, axes) {
+          const boundaries = [lineUV([0, 0], [1, 0]), lineUV([1, 0], [1, 1]), lineUV([1, 1], [0, 1]), lineUV([0, 1], [0, 0])];
+          const center = frontFn(.5, .5);
+          for (const path of boundaries) {
+            surface(g, (u, t) => {
+              const uv = path(u), a = frontFn(...uv), b = backFn(...uv);
+              // La espuma redondea el canto antes de llegar a la banda lateral.
+              const k = smooth(0, 1, t), p = a.map((value, i) => mix(value, b[i], k));
+              const dx = a[axes[0]] - center[axes[0]], dy = a[axes[1]] - center[axes[1]];
+              const length = Math.max(.001, Math.hypot(dx, dy));
+              const curve = Math.sin(Math.PI * t) * (g.name.includes('Butaca') ? .033 : .007);
+              p[axes[0]] += curve * dx / length; p[axes[1]] += curve * dy / length;
+              return p;
+            }, mat, { nu: 50, nv: 12, uvAxes: axes });
+          }
+        }
+        function upholsteredFace(g, fn, role, flip, axes, uCuts, vCuts, label) {
+          for (let i = 0; i < uCuts.length - 1; i++) for (let j = 0; j < vCuts.length - 1; j++) {
+            const range = [uCuts[i], uCuts[i + 1], vCuts[j], vCuts[j + 1]];
+            const target = role((range[0] + range[1]) / 2, (range[2] + range[3]) / 2);
+            surface(g, fn, target === 'panel' ? panel : primary, {
+              range, nu: Math.max(10, Math.ceil((range[1] - range[0]) * 70)),
+              nv: Math.max(10, Math.ceil((range[3] - range[2]) * 90)), flip, uvAxes: axes, name: label + '/' + target
+            });
+          }
+        }
+
+        // Almacén único de bordado: relieve de hilo sobre la cara real del tapiz.
+        const logoCanvas = document.createElement('canvas'); logoCanvas.width = 1024; logoCanvas.height = 256;
+        const logoTexture = new THREE.CanvasTexture(logoCanvas); logoTexture.colorSpace = THREE.SRGBColorSpace;
+        logoTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy()); ownedTextures.add(logoTexture);
+        const embroidery = material(THREE.MeshStandardMaterial, { map: logoTexture, transparent: true, alphaTest: .08, depthWrite: false, roughness: .95, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -2 });
+        let previousLogo = '';
+        function paintLogo() {
+          const label = state.logo.trim() || 'AUTOTAP'; if (label === previousLogo) return; previousLogo = label;
+          const ctx = logoCanvas.getContext('2d'); ctx.clearRect(0, 0, 1024, 256);
+          ctx.font = '800 132px Inter, Arial, sans-serif';
+          const width = ctx.measureText(label).width; if (width > 940) ctx.font = `800 ${Math.floor(132 * 940 / width)}px Inter, Arial, sans-serif`;
+          ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#efe9df'; ctx.fillText(label, 512, 139);
+          ctx.globalCompositeOperation = 'source-atop'; ctx.lineWidth = 2;
+          for (let x = -180; x < 1150; x += 5) { ctx.strokeStyle = x % 10 ? '#807c7477' : '#ffffff88'; ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + 110, 256); ctx.stroke(); }
+          ctx.globalCompositeOperation = 'source-over'; logoTexture.needsUpdate = true;
+        }
+        function curvedLogo(parent, fn, u0, u1, v0, v1, flip) {
+          const object = surface(parent, (u, v) => {
+            const f = frameAt(fn, mix(u0, u1, u), mix(v0, v1, v), flip);
+            return f.point.addScaledVector(f.normal, .0028).toArray();
+          }, embroidery, { nu: 20, nv: 8, flip });
+          const uv = object.geometry.getAttribute('uv');
+          for (let j = 0; j <= 8; j++) for (let i = 0; i <= 20; i++) uv.setXY(j * 21 + i, i / 20, flip ? 1 - j / 8 : j / 8);
+          object.castShadow = false;
+        }
+
+        /* BUTACA: piezas de tapiz contiguas, hombros, apoyo lumbar y nariz. */
+        const U0 = .20, U1 = .80;
+        const seatRole = (u, v) => u > U0 && u < U1 && v > .12 && v < .82 ? 'panel' : 'primary';
+        const backRole = (u, v) => u > U0 && u < U1 && v > .045 && v < .78 ? 'panel' : 'primary';
+        function seatFn(u, v) {
+          const a = 2 * u - 1;
+          const width = .53 + .050 * Math.sin(v * Math.PI * .8);
+          const x = a * width;
+          const edgeZ = .065 * Math.pow(Math.abs(a), 8);
+          const z = -.43 + v * 1.27 - edgeZ * smooth(.8, 1, v) + edgeZ * (1 - smooth(0, .16, v));
+          const bolster = (.118 + .030 * Math.sin(v * Math.PI)) * gauss(Math.abs(a), .82, .19) * (1 - .46 * smooth(.76, 1, v));
+          let y = .57 + .025 * Math.sin(v * Math.PI) - .028 * gauss(v, .33, .25) + bolster - .055 * smooth(.87, 1, v);
+          y -= .007 * (gauss(u, U0, .011) + gauss(u, U1, .011));
+          if (u > U0 && u < U1) y -= .006 * (gauss(v, .12, .012) + gauss(v, .48, .012) + gauss(v, .82, .012));
+          return [x, y, z];
+        }
+        function backFn(u, v) {
+          const a = 2 * u - 1;
+          const halfWidth = .46 + .07 * Math.sin(Math.PI * v) + .085 * gauss(v, .73, .22) - .045 * smooth(.9, 1, v);
+          const x = a * halfWidth;
+          const y = .61 + 1.40 * v - .075 * Math.pow(Math.abs(a), 6) * Math.pow(v, 12);
+          let z = -.275 - .205 * v + .065 * gauss(v, .22, .22) + .014 * Math.cos(a * Math.PI / 2);
+          z += .175 * gauss(Math.abs(a), .81, .22) * Math.pow(Math.max(0, Math.sin(Math.PI * (.025 + .95 * v))), .45);
+          z -= .0075 * (gauss(u, U0, .011) + gauss(u, U1, .011));
+          if (u > U0 && u < U1) z -= .006 * (gauss(v, .045, .010) + gauss(v, .30, .012) + gauss(v, .54, .012) + gauss(v, .78, .012));
+          return [x, y, z];
+        }
+        function buildSeat() {
+          const g = modelGroup('Butaca automotriz');
+          for (const x of [-.42, .42]) {
+            rounded(g, .085, .068, 1.13, .015, darkMetal, [x, .070, .08]);
+            rounded(g, .060, .080, .87, .015, metal, [x, .134, .04]);
+            for (const z of [-.35, .55]) rounded(g, .145, .04, .12, .011, darkMetal, [x, .022, z]);
+          }
+          rounded(g, 1.12, .20, 1.10, .075, plastic, [0, .27, .14]);
+          const seatBottom = (u, v) => { const p = seatFn(u, v); return [p[0] * .97, .34 + .028 * Math.sin(v * Math.PI), p[2] * .985]; };
+          upholsteredFace(g, seatFn, seatRole, true, [0, 2], [0, U0, U1, 1], [0, .12, .48, .82, 1], 'cojín');
+          surface(g, seatBottom, primary, { flip: false, nu: 40, nv: 45 });
+          bodyEdges(g, seatFn, seatBottom, primary, [0, 2]);
+          const backBehind = (u, v) => { const p = backFn(u, v); return [p[0] * .96, p[1], -.49 - .15 * v]; };
+          upholsteredFace(g, backFn, backRole, false, [0, 1], [0, U0, U1, 1], [0, .045, .30, .54, .78, 1], 'respaldo');
+          surface(g, backBehind, primary, { flip: true, uvAxes: [0, 1] });
+          bodyEdges(g, backFn, backBehind, primary, [0, 1]);
+          surface(g, (u, v) => { const p = backBehind(.085 + .83 * u, .10 + .76 * v); return [p[0], p[1], p[2] - .006]; }, plastic, { flip: true, uvAxes: [0, 1], name: 'carcasa-posterior' });
+
+          // Doble pespunte: borde inserto / bolster; no trazos flotando en el centro.
+          for (const u of [U0, U1]) {
+            seam(g, seatFn, lineUV([u, .02], [u, .98]), { flip: true, role: seatRole, name: 'cojín-inserto-lateral' });
+            seam(g, backFn, lineUV([u, .02], [u, .975]), { role: backRole, name: 'respaldo-inserto-lateral' });
+          }
+          for (const v of [.12, .48, .82]) seam(g, seatFn, lineUV([U0 + .018, v], [U1 - .018, v]), { flip: true, role: seatRole, name: 'unión-transversal-cojín' });
+          for (const v of [.045, .30, .54, .78]) seam(g, backFn, lineUV([U0 + .018, v], [U1 - .018, v]), { role: backRole, name: 'unión-transversal-respaldo' });
+          // Ribete en la costura exterior de la cara, antes del lateral de la funda.
+          seam(g, seatFn, roundedPath(.025, .024, .975, .976, .07), { flip: true, closed: true, rows: [.009], pipe: true, name: 'cojín-cara-lateral' });
+          seam(g, backFn, roundedPath(.032, .022, .968, .978, .065), { closed: true, rows: [-.009], pipe: true, name: 'respaldo-cara-lateral' });
+
+          // Apoyacabezas de una pieza; permanece del color principal en dos tonos.
+          for (const x of [-.19, .19]) mesh(new THREE.CylinderGeometry(.019, .019, .27, 16), metal, g, [x, 2.105, -.505]);
+          const head = rounded(g, .68, .43, .34, .095, primary, [0, 2.335, -.49], -.12);
+          head.updateMatrix();
+          const headFn = (u, v) => {
+            const x = (u - .5) * .68, y = (v - .5) * .43;
+            const dx = Math.max(0, Math.abs(x) - (.34 - .095));
+            const dy = Math.max(0, Math.abs(y) - (.215 - .095));
+            const z = .17 - .095 + Math.sqrt(Math.max(.000001, .095 * .095 - dx * dx - dy * dy));
+            return new THREE.Vector3(x, y, z).applyMatrix4(head.matrix).toArray();
+          };
+          seam(g, headFn, roundedPath(.062, .075, .938, .925, .17), { closed: true, rows: [-.007], pipe: true, name: 'apoyacabezas-cara-lateral' });
+          curvedLogo(g.userData.logos, headFn, .20, .80, .39, .61, false);
+          const knob = mesh(new THREE.CylinderGeometry(.105, .105, .047, 32), plastic, g, [.602, .41, -.24]); knob.rotation.z = Math.PI / 2;
+          const hub = mesh(new THREE.CylinderGeometry(.035, .035, .052, 24), darkMetal, g, [.618, .41, -.24]); hub.rotation.z = Math.PI / 2;
+          rounded(g, .055, .05, .24, .018, plastic, [.591, .335, .30], .04);
+          rounded(g, .068, .20, .085, .018, plastic, [-.65, .43, -.16], 0, -.12);
+          rounded(g, .060, .04, .076, .011, fixedRed, [-.645, .535, -.16], 0, -.12);
+          rounded(g, .022, .075, .036, .006, fixedRed, [.551, 1.27, -.294]);
+          finishThreads(g); return g;
+        }
+
+        function roundedPlan(u, v, width, length, radius) {
+          let x = (u - .5) * width, z = (v - .5) * length;
+          const dx = Math.max(0, Math.abs(x) - (width / 2 - radius)), dz = Math.max(0, Math.abs(z) - (length / 2 - radius));
+          const d = Math.hypot(dx, dz);
+          if (d > radius) { x = Math.sign(x) * (width / 2 - radius + dx / d * radius); z = Math.sign(z) * (length / 2 - radius + dz / d * radius); }
+          return [x, z];
+        }
+        function floorFn(u, v) {
+          const [xx, z] = roundedPlan(u, v, 2.36, 2.92, .22), x = xx * (.91 + .09 * Math.sin(v * Math.PI));
+          const tunnel = .34 * Math.exp(-Math.pow(x / .255, 4));
+          const sill = .18 * Math.pow(Math.abs(x) / 1.16, 10), end = .23 * Math.pow(Math.abs(z) / 1.46, 12);
+          const footwells = -.045 * (gauss(x, -.65, .38) + gauss(x, .65, .38)) * (gauss(z, -.75, .35) + gauss(z, .73, .35));
+          return [x, .20 + tunnel + sill + end + footwells + .045 * gauss(z, -.04, .11), z];
+        }
+        function buildFloor() {
+          const g = modelGroup('Piso moldeado y alfombrillas');
+          surface(g, floorFn, primary, { nu: 68, nv: 80, flip: true });
+          const bottom = (u, v) => { const p = floorFn(u, v); return [p[0], p[1] - .032, p[2]]; };
+          surface(g, bottom, plastic); bodyEdges(g, floorFn, bottom, primary, [0, 2]);
+          // El piso moldeado es continuo. Los remates pertenecen a las alfombrillas.
+          for (const [u0, u1, v0, v1] of [[.068, .414, .09, .43], [.586, .932, .09, .43], [.080, .414, .59, .91], [.586, .920, .59, .91]]) {
+            const matFn = (u, v) => {
+              const [x, z] = roundedPlan(u, v, 1, 1, .09);
+              const p = floorFn(mix(u0, u1, x + .5), mix(v0, v1, z + .5)); return [p[0], p[1] + .014, p[2]];
+            };
+            surface(g, matFn, panel, { nu: 26, nv: 32, flip: true, name: 'alfombrilla' });
+            const edge = roundedPath(.02, .02, .98, .98, .095);
+            seam(g, matFn, edge, { flip: true, closed: true, rows: [.012], pipe: true, groove: true, role: () => 'panel', name: 'remate-alfombrilla' });
+            if (u0 > .5 && v0 > .5) curvedLogo(g.userData.logos, matFn, .25, .75, .57, .71, true);
+          }
+          const heel = floorFn(.235, .76);
+          rounded(g, .39, .017, .35, .007, plastic, [heel[0], heel[1] + .037, heel[2]]);
+          for (let i = 0; i < 8; i++) rounded(g, .32, .006, .009, .002, darkMetal, [heel[0], heel[1] + .049, heel[2] - .13 + i * .037]);
+          for (const u of [.18, .82]) for (const v of [.46, .55]) {
+            const p = floorFn(u, v), ring = mesh(new THREE.TorusGeometry(.032, .007, 6, 20), darkMetal, g, [p[0], p[1] + .012, p[2]]); ring.rotation.x = Math.PI / 2;
+          }
+          finishThreads(g); return g;
+        }
+        function roofFn(u, v) {
+          let [x, z] = roundedPlan(u, v, 2.30, 2.88, .33); x *= .91 + .09 * Math.sin(v * Math.PI);
+          return [x, .23 + .29 * Math.pow(x / 1.15, 2) + .12 * Math.pow(z / 1.44, 2) + .055 * gauss(z, 1.22, .23), z];
+        }
+        function buildRoof() {
+          const g = modelGroup('Cielo curvo, cara interior');
+          const bottom = (u, v) => { const p = roofFn(u, v); return [p[0], p[1] - .043, p[2]]; };
+          surface(g, roofFn, primary, { nu: 64, nv: 72, flip: true });
+          surface(g, bottom, plastic); bodyEdges(g, roofFn, bottom, primary, [0, 2]);
+          // Panel central personalizado: el remate no cruza asideros ni parasoles.
+          const insert = (u, v) => {
+            const [x, z] = roundedPlan(u, v, 1, 1, .10);
+            const p = roofFn(.15 + .70 * (x + .5), .20 + .50 * (z + .5)); return [p[0], p[1] + .003, p[2]];
+          };
+          surface(g, insert, panel, { nu: 38, nv: 42, flip: true, name: 'panel-central-cielo' });
+          seam(g, insert, roundedPath(.025, .025, .975, .975, .13), { flip: true, closed: true, rows: [-.007, .007], pipe: true, role: () => 'panel', name: 'unión-panel-central-cielo' });
+          for (const z of [-.68, .59]) for (const side of [-1, 1]) {
+            const x = side * .96, y = roofFn(side < 0 ? .05 : .95, z / 2.88 + .5)[1];
+            for (const dz of [-.145, .145]) rounded(g, .095, .042, .074, .017, plastic, [x, y + .018, z + dz]);
+            const curve = new THREE.CatmullRomCurve3([[x, y + .03, z - .145], [x - side * .03, y + .085, z - .09], [x - side * .03, y + .085, z + .09], [x, y + .03, z + .145]].map(p => new THREE.Vector3(...p)));
+            mesh(new THREE.TubeGeometry(curve, 24, .021, 8), plastic, g);
+          }
+          for (const x of [-.53, .53]) {
+            const y = roofFn(x / 2.30 + .5, .845)[1]; rounded(g, .68, .044, .33, .018, primary, [x, y + .034, .99], -.12);
+            rounded(g, .25, .010, .13, .004, plastic, [x, y + .067, .985], -.12);
+          }
+          const light = roofFn(.5, .765);
+          rounded(g, .29, .041, .20, .019, plastic, [0, light[1] + .031, light[2]]);
+          const lens = material(THREE.MeshStandardMaterial, { color: '#eee6d2', roughness: .36, emissive: '#ffe2b0', emissiveIntensity: .18 });
+          rounded(g, .19, .012, .115, .005, lens, [0, light[1] + .057, light[2]]);
+          curvedLogo(g.userData.logos, insert, .34, .66, .35, .44, true);
+          finishThreads(g); return g;
+        }
+
+        const platform = new THREE.Group(); scene.add(platform);
+        const stageMat = material(THREE.MeshStandardMaterial, { color: '#17191c', roughness: .87, metalness: .08 });
+        const stage = mesh(new THREE.CylinderGeometry(1.93, 1.95, .05, 80), stageMat, platform, [0, -.044, 0]); stage.castShadow = false;
+        const ring = mesh(new THREE.RingGeometry(1.86, 1.869, 96), material(THREE.MeshBasicMaterial, { color: '#363b43', side: THREE.DoubleSide }), platform, [0, -.017, 0]); ring.rotation.x = -Math.PI / 2; ring.castShadow = false;
+        const shadowCanvas = document.createElement('canvas'); shadowCanvas.width = shadowCanvas.height = 128;
+        const shadowCtx = shadowCanvas.getContext('2d'), gradient = shadowCtx.createRadialGradient(64, 64, 5, 64, 64, 64);
+        gradient.addColorStop(0, 'rgba(0,0,0,.48)'); gradient.addColorStop(1, 'rgba(0,0,0,0)'); shadowCtx.fillStyle = gradient; shadowCtx.fillRect(0, 0, 128, 128);
+        const contactTexture = new THREE.CanvasTexture(shadowCanvas); ownedTextures.add(contactTexture);
+        const contact = mesh(new THREE.PlaneGeometry(3.5, 3.5), material(THREE.MeshBasicMaterial, { map: contactTexture, transparent: true, depthWrite: false }), platform, [0, -.014, 0]); contact.rotation.x = -Math.PI / 2; contact.castShadow = false;
+        const models = { seats: buildSeat(), floor: buildFloor(), roof: buildRoof() };
+        for (const g of Object.values(models)) {
+          const box = new THREE.Box3().setFromObject(g), center = box.getCenter(new THREE.Vector3());
+          g.position.set(-center.x, -box.min.y + .025, -center.z); g.visible = false; scene.add(g);
+        }
+
+        let currentProduct = '', requestedProduct = '', currentFabric = '', view = 'perspective';
+        let frame = 0, deadline = 0, lastTime = 0, swapTimer = 0;
+        let visible = true, lost = false, destroyed = false;
+        let resizeObserver, visibilityObserver;
+        const targetColor = new THREE.Color(mainHex()), targetPanel = targetColor.clone();
+        const targetThread = new THREE.Color(), targetPanelThread = new THREE.Color(), targetPipe = new THREE.Color();
+        const highlight = new THREE.Color('#b5b5b5');
+        const viewButtons = ['viewPerspective', 'viewFront', 'viewDetail'];
+        const controlIds = ['resetView', 'autoRotate', 'zoomIn', 'zoomOut', ...viewButtons];
+        function enableControls(value) { controlIds.forEach(id => $(id).disabled = !value); }
+        function invalidate(ms = 650) {
+          if (destroyed) return; deadline = Math.max(deadline, performance.now() + ms);
+          if (!frame && visible && !document.hidden && !lost) frame = requestAnimationFrame(render);
+        }
+        function render(now) {
+          if (destroyed || document.hidden || !visible || lost) { frame = 0; return; }
+          const dt = Math.min((now - (lastTime || now - 16)) / 1000, .05); lastTime = now;
+          const a = reduced.matches ? 1 : 1 - Math.exp(-dt * 15);
+          primary.color.lerp(targetColor, a); panel.color.lerp(targetPanel, a);
+          threadPrimary.color.lerp(targetThread, a); threadPanel.color.lerp(targetPanelThread, a); pipingMat.color.lerp(targetPipe, a);
+          primary.sheenColor.copy(primary.color); panel.sheenColor.copy(panel.color);
+          controls.update(dt); renderer.render(scene, camera); frame = 0;
+          if (now < deadline || controls.autoRotate) frame = requestAnimationFrame(render);
+        }
+        function stopAuto() { controls.autoRotate = false; $('autoRotate').setAttribute('aria-pressed', 'false'); $('autoRotate').title = 'Activar giro automático'; }
+        function fitView(mode = view) {
+          if (!currentProduct) return; view = mode;
+          const box = new THREE.Box3().setFromObject(models[currentProduct]), sphere = box.getBoundingSphere(new THREE.Sphere());
+          const vfov = THREE.MathUtils.degToRad(camera.fov), hfov = 2 * Math.atan(Math.tan(vfov / 2) * camera.aspect);
+          let distance = sphere.radius / Math.sin(Math.min(vfov, hfov) / 2) * 1.015;
+          const isSeat = currentProduct === 'seats';
+          let direction = isSeat ? new THREE.Vector3(1.02, .57, 2.55) : new THREE.Vector3(1.1, 2.5, 2.25);
+          const target = sphere.center.clone();
+          if (mode === 'front') direction = isSeat ? new THREE.Vector3(0, .23, 3) : new THREE.Vector3(0, 3.2, 1.3);
+          if (mode === 'detail') {
+            if (isSeat) { target.set(-.15, 1.30 + models.seats.position.y, .015); direction.set(.26, .30, 2.7); distance *= .48; }
+            else { target.y += .06; direction.set(.8, 3.1, 1.8); distance *= .61; }
+          }
+          controls.target.copy(target); camera.position.copy(target).add(direction.normalize().multiplyScalar(distance));
+          controls.minDistance = Math.max(.75, distance * .53); controls.maxDistance = distance * 2.6; controls.update();
+          viewButtons.forEach((id, i) => $(id).setAttribute('aria-pressed', String(['perspective', 'front', 'detail'][i] === mode)));
+          invalidate();
+        }
+        function switchProduct(product) {
+          clearTimeout(swapTimer);
+          if (product === currentProduct) { canvas.style.opacity = '1'; invalidate(); return; }
+          const swap = () => {
+            Object.entries(models).forEach(([key, g]) => g.visible = key === product); currentProduct = product;
+            platform.scale.set(product === 'seats' ? .74 : 1, 1, product === 'seats' ? .74 : 1);
+            renderer.shadowMap.needsUpdate = true; view = 'perspective'; fitView(); canvas.style.opacity = '1'; invalidate();
+          };
+          if (!currentProduct || reduced.matches) swap(); else { canvas.style.opacity = '0'; swapTimer = setTimeout(swap, 130); }
+        }
+        function update() {
+          if (requestedProduct !== state.product) { requestedProduct = state.product; switchProduct(state.product); }
+          targetColor.set(mainHex()); targetPanel.set(state.design === 'duo' ? COLORS[state.secondary].hex : mainHex());
+          const red = new THREE.Color('#e63946');
+          const nearRed = Math.hypot(targetColor.r - red.r, targetColor.g - red.g, targetColor.b - red.b) < .25 || state.color === 'red';
+          targetPipe.set(nearRed ? '#ede3d2' : '#e63946');
+          if (state.design === 'stitch') { targetThread.copy(targetPipe); targetPanelThread.copy(targetPipe); }
+          else { targetThread.copy(targetColor).lerp(highlight, .13); targetPanelThread.copy(targetPanel).lerp(highlight, .13); }
+          for (const g of Object.values(models)) { g.userData.pipes.visible = state.design === 'piping'; g.userData.logos.visible = state.design === 'logo'; }
+          if (currentFabric !== state.fabric) {
+            const f = FABRICS[state.fabric], t = fabricTexture(state.fabric);
+            for (const m of [primary, panel]) {
+              m.map = t.map; m.normalMap = t.normal; m.roughnessMap = t.roughness;
+              m.normalScale.setScalar(state.fabric === 'perforated' ? .70 : state.fabric === 'cloth' ? .47 : .33);
+              m.roughness = state.fabric === 'pvc' ? .64 : state.fabric === 'leather' ? .61 : .98;
+              m.sheen = f.sheen; m.clearcoat = f.coat * .6; m.clearcoatRoughness = .46; m.needsUpdate = true;
+            }
+            currentFabric = state.fabric;
+          }
+          paintLogo();
+          canvas.setAttribute('aria-label', `${PRODUCTS[state.product].name} en 3D. ${FABRICS[state.fabric].name}, ${colorDescription()}, ${designDescription()}. Flechas para girar, + o − para zoom y 0 para restablecer.`);
+          invalidate(900);
+        }
+        function resize() {
+          const w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
+          camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h, false); fitView(); invalidate();
+        }
+        resizeObserver = new ResizeObserver(resize); resizeObserver.observe(host);
+        visibilityObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+          visible = entries[0].isIntersecting;
+          if (visible) { lastTime = 0; invalidate(); } else if (frame) { cancelAnimationFrame(frame); frame = 0; }
+        }, { rootMargin: '100px' }) : null; visibilityObserver?.observe(host);
+        controls.addEventListener('change', () => invalidate(180)); controls.addEventListener('start', stopAuto);
+        on($('resetView'), 'click', () => { stopAuto(); fitView('perspective'); });
+        viewButtons.forEach((id, i) => on($(id), 'click', () => { stopAuto(); fitView(['perspective', 'front', 'detail'][i]); }));
+        on($('autoRotate'), 'click', () => {
+          controls.autoRotate = !controls.autoRotate; $('autoRotate').setAttribute('aria-pressed', String(controls.autoRotate));
+          $('autoRotate').title = controls.autoRotate ? 'Pausar giro automático' : 'Activar giro automático'; invalidate();
+        });
+        function zoom(factor) {
+          const offset = camera.position.clone().sub(controls.target);
+          const length = THREE.MathUtils.clamp(offset.length() * factor, controls.minDistance, controls.maxDistance);
+          camera.position.copy(controls.target).add(offset.setLength(length)); controls.update(); invalidate();
+        }
+        on($('zoomIn'), 'click', () => zoom(.84)); on($('zoomOut'), 'click', () => zoom(1.19));
+        on(canvas, 'keydown', event => {
+          if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', '+', '=', '-', '0'].includes(event.key)) return;
+          event.preventDefault(); stopAuto();
+          if (event.key === '0') fitView('perspective');
+          else if (['+', '=', '-'].includes(event.key)) zoom(event.key === '-' ? 1.16 : .86);
+          else {
+            const spherical = new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target));
+            if (event.key === 'ArrowLeft') spherical.theta -= .12; if (event.key === 'ArrowRight') spherical.theta += .12;
+            if (event.key === 'ArrowUp') spherical.phi -= .10; if (event.key === 'ArrowDown') spherical.phi += .10;
+            spherical.phi = THREE.MathUtils.clamp(spherical.phi, controls.minPolarAngle, controls.maxPolarAngle);
+            camera.position.copy(controls.target).add(new THREE.Vector3().setFromSpherical(spherical)); controls.update(); invalidate();
+          }
+        });
+        on(document, 'visibilitychange', () => { if (document.hidden) { cancelAnimationFrame(frame); frame = 0; } else { lastTime = 0; invalidate(); } });
+        const onReduced = () => { if (reduced.matches) stopAuto(); invalidate(); }; reduced.addEventListener('change', onReduced);
+        on(canvas, 'webglcontextlost', event => {
+          event.preventDefault(); lost = true; cancelAnimationFrame(frame); frame = 0; enableControls(false);
+          $('viewerOverlay').hidden = false; $('spinner').hidden = true; $('retry3d').hidden = false;
+          $('viewerStatus').textContent = 'La vista 3D se ha pausado. Puedes recuperarla sin perder tu configuración.';
+          $('liveBadge').textContent = 'Vista pausada'; $('liveBadge').dataset.status = 'error';
+        });
+        on(canvas, 'webglcontextrestored', () => {
+          try { refreshEnvironment(); lost = false; renderer.shadowMap.needsUpdate = true; $('viewerOverlay').hidden = true; $('retry3d').hidden = true; $('liveBadge').textContent = 'Vista 3D'; $('liveBadge').dataset.status = 'ready'; enableControls(true); invalidate(); }
+          catch { $('retry3d').hidden = false; }
+        });
+        function dispose() {
+          if (destroyed) return; destroyed = true; abort.abort(); clearTimeout(swapTimer); cancelAnimationFrame(frame);
+          resizeObserver?.disconnect(); visibilityObserver?.disconnect(); reduced.removeEventListener('change', onReduced); controls.dispose();
+          const geometries = new Set([threadGeometry]); scene.traverse(o => { if (o.geometry) geometries.add(o.geometry); });
+          geometries.forEach(g => g.dispose()); ownedMaterials.forEach(m => m.dispose()); ownedTextures.forEach(t => t.dispose());
+          environment?.dispose(); renderer.dispose(); canvas.remove();
+        }
+        cleanup = dispose; engine = { update, dispose };
+        on(window, 'pagehide', event => { if (!event.persisted) dispose(); });
+        update(); resize(); renderer.shadowMap.needsUpdate = true; renderer.render(scene, camera);
+        document.fonts?.ready.then(() => { if (!destroyed) { previousLogo = ''; paintLogo(); invalidate(); } });
+        $('viewerOverlay').hidden = true; host.setAttribute('aria-busy', 'false');
+        $('liveBadge').textContent = 'Vista 3D'; $('liveBadge').dataset.status = 'ready'; enableControls(true);
+      } catch (error) {
+        cleanup(); engine = null; $('viewerOverlay').hidden = false; $('spinner').hidden = true; $('retry3d').hidden = false;
+        $('viewerStatus').textContent = 'No pudimos cargar la vista 3D. Comprueba tu conexión y usa un navegador con WebGL 2. El cotizador sigue disponible.';
+        $('liveBadge').textContent = '3D no disponible'; $('liveBadge').dataset.status = 'error'; host.setAttribute('aria-busy', 'false');
+        console.error('Autotap: visualizador no disponible.', error);
+      } finally { clearTimeout(loadNotice); initializing = false; }
+    }
+    $('retry3d').addEventListener('click', () => { engine?.dispose(); engine = null; initialize3D(); });
+    initialize3D();
+  })();
+  </script>
+</body>
+</html>
